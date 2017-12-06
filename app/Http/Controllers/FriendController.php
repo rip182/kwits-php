@@ -36,7 +36,7 @@ class FriendController extends Controller
      */
     public function show($id)
     {
-        $user = User::find(3);
+        $user = User::find(2);
 
         $friend = User::find($id);
 
@@ -56,8 +56,8 @@ class FriendController extends Controller
 
         if($friend_contributions == 0)
           $percentage = 0;
-        else if($friend_contributions >= $total)
-          $percentage = 100;
+        else if($friend_contributions > $total)
+          $percentage = ($total / $friend_contributions) * 100;
         else
           $percentage = ($friend_contributions / $total) * 100;
 
