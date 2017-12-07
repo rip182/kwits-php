@@ -27,9 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function owes()
-    {
-      return $this->hasMany('App\Owe');
+    public function leechers() {
+      $this->hasMany('App\Leech', 'leech_from');
     }
 
     /**
@@ -39,4 +38,5 @@ class User extends Authenticatable
     {
         return $this->morphMany('App\Payment', 'payable');
     }
+
 }

@@ -6,23 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+
+
   /**
-   * The table associated with the model.
-   *
-   * @var string
+   * Get all of the owning payable models.
    */
-  protected $table = 'payments';
+  public function payable()
+  {
+      return $this->morphTo();
+  }
 
-    /**
-     * Get all of the owning payable models.
-     */
-    public function payable()
-    {
-        return $this->morphTo();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
+  public function user()
+  {
+      return $this->belongsTo('App\User');
+  }
 }

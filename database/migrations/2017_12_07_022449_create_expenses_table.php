@@ -13,12 +13,12 @@ class CreateExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->decimal('amount', 8, 2);
-            $table->timestamps();
-        });
+      Schema::create('expenses', function (Blueprint $table) {
+          $table->increments('id');
+          $table->string('name');
+          $table->decimal('amount', 8, 2);
+          $table->timestamps();
+      }); 
     }
 
     /**
