@@ -28,6 +28,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function expensePayments() {
+      return $this->payments()->where('payable_type', 'App\Expense')->get();
+    }
 
     public function leeches() {
       return $this->hasMany('App\Leech', 'user_id');

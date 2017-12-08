@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'DashboardController@index');
+Route::get('/friends/{friend}', 'FriendsController@show');
+Route::get('/friends/{friend}/activities', 'ActivitiesController@show');
