@@ -48,6 +48,8 @@ class HomeController extends Controller
 
             return [
 
+              'id'          => $friend->id,
+
               'name'        => $friend->name,
 
               'owes'        => $owes,

@@ -9,6 +9,11 @@
 
                   @if($summary['contributions'] >= $summary['total_owes'])
                     {{ "You owe " . $friend->name . " Php " . number_format(abs($summary['amount']), 2) }}
+                    @if($summary['contributions'] > $summary['total_owes'])
+                      <span style="float:right;">
+                        <button type="button" class="btn btn-primary btn-sm">Settle</button>
+                      </span>
+                    @endif
                   @else
                     {{ $friend->name . " owes you Php " . number_format($summary['amount'], 2) }}
                   @endif

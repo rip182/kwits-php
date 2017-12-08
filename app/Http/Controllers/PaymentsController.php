@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Leech;
 
 class PaymentsController extends Controller
 {
@@ -35,7 +38,14 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Payment::create([
+          'user_id'       => Auth::id(),
+          'payable_id'    => $request->user_id,
+          'payable_type'  => 'App\User',
+          'amount'        => $request->amount,
+        ]);
+
+        return redirect()->back();
     }
 
     /**
