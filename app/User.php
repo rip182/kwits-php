@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -27,16 +28,31 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function leechers() {
-      $this->hasMany('App\Leech', 'leech_from');
+
+    public function leeches() {
+      return $this->hasMany('App\Leech', 'user_id');
     }
 
-    /**
-   * Get all of the user's payments.
-   */
-    public function payments()
-    {
-        return $this->morphMany('App\Payment', 'payable');
+    public function payments() {
+      return $this->hasMany('App\Payment', 'user_id');
+    }
+
+    //Friend methods
+    public function obligations($id) {
+      return $this->leeches()->where('leech_from', $id)->get();
+    }
+
+    public function seeds($id) {
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
+    }
+
+    //User methods
+    public function contributions($id) {
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
+    }
+
+    public function debts($id) {
+      return $this->leeches()->where('leech_from', $id)->get();
     }
 
 }
