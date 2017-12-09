@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Expense;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
 use App\Payment;
@@ -29,7 +28,7 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $friends = User::where('id', '!=', Auth::id())->get();
+        $friends = User::where('id', '!=', auth()->id())->get();
 
         return view('expenses.create', compact('friends'));
     }
@@ -44,13 +43,18 @@ class ExpensesController extends Controller
     {
         $leeches = [];
 
+        $this->validate($request, [
+          'amount'  => 'required',
+          'user_id' => 'required',
+        ]);
+
         $expense = Expense::create([
           'name' => $request->name,
           'amount' => $request->amount
         ]);
 
         Payment::create([
-          'user_id'       => Auth::id(),
+          'user_id'       => auth()->id(),
           'payable_id'    => $expense->id,
           'payable_type'  => 'App\Expense',
           'amount'        => $request->amount,
@@ -62,7 +66,7 @@ class ExpensesController extends Controller
         foreach($request->user_id as $user_id) {
           $leeches[] = [
             'user_id'    => $user_id,
-            'leech_from' => Auth::id(),
+            'leech_from' => auth()->id(),
             'expense_id' => $expense->id,
             'amount'     => $owe_amount,
             'created_at' => Carbon::now(),
@@ -83,7 +87,7 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense)
     {
-        //
+        return view('expenses.show', compact('expense'));
     }
 
     /**

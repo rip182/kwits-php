@@ -17,10 +17,10 @@ class Expense extends Model
   ];
 
   public function leechers() {
-    $this->hasMany('App\Leech', 'expense_id');
+    return $this->hasMany('App\Leech', 'expense_id');
   }
 
   public function payment() {
-    $this->morphOne('App\Payment', 'payable');
+    return $this->morphOne('App\Payment', 'payable');
   }
 }

@@ -28,8 +28,20 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function expensePayments() {
-      return $this->payments()->where('payable_type', 'App\Expense')->get();
+    public function expensePayments($user) {
+      $expense_ids = [];
+
+      $leeches = $user->leeches()->where('leech_from', $this->id)->get();
+
+      foreach($leeches as $leech) {
+        $expense_ids[] = $leech->expense_id;
+      }
+
+      if(empty($expense_ids))
+        return collect();
+
+      return $this->payments()->where('payable_type', 'App\Expense')->whereIn('payable_id', $expense_ids)->get();
+
     }
 
     public function leeches() {

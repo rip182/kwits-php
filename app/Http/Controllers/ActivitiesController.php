@@ -49,7 +49,7 @@ class ActivitiesController extends Controller
     {
         $user = User::find(Auth::id());
 
-        $expense_payments = $friend->expensePayments();
+        $expense_payments = $friend->expensePayments($user);
 
         $seeds = $friend->seeds($user->id);
 

@@ -27,4 +27,9 @@ class Payment extends Model
   {
       return $this->belongsTo('App\User');
   }
+
+  public function leechers()
+  {
+      return $this->hasMany('App\Leech', 'expense_id');
+  }
 }

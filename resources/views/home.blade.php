@@ -10,7 +10,7 @@
                   <span>
                     {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
                     <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
-                      Php {{ number_format(abs($total_owes), 2)  }}
+                      <strong>Php {{ number_format(abs($total_owes), 2)  }}</strong>
                     </span>
                   </span>
                 </div>
@@ -28,12 +28,12 @@
                     @if($friend['owes'] >= 0)
                       Owes you
                       <span style="color:green;">
-                        Php {{ number_format(abs($friend['owes']), 2)  }}
+                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
                       </span>
                     @else
                       You owe
                       <span style="color:#bf5329;">
-                        Php {{ number_format(abs($friend['owes']), 2)  }}
+                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
                       </span>
                       <span style="float:right;">
                         <button type="button" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="btn btn-primary btn-sm">Settle</button>
