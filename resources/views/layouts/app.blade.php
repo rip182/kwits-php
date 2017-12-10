@@ -37,18 +37,21 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                      <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
-                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-                      </li>
-                      <li class="nav-item {{ Request::is('friends/create') ? 'active' : '' }}">
-                        <a href="/friends/create" class="nav-link">Invite Friends</a>
-                      </li>
-                      <li class="nav-item {{ Request::is('expenses/create') ? 'active' : '' }}">
-                        <a href="/expenses/create" class="nav-link">Add Expense</a>
-                      </li>
-                      <li class="nav-item {{ Request::is('lendings/create') ? 'active' : '' }}">
-                        <a href="/lendings/create" class="nav-link">Lend Money</a>
-                      </li>
+                      @guest
+                      @else
+                        <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
+                          <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item {{ Request::is('friends/create') ? 'active' : '' }}">
+                          <a href="/friends/create" class="nav-link">Invite Friends</a>
+                        </li>
+                        <li class="nav-item {{ Request::is('expenses/create') ? 'active' : '' }}">
+                          <a href="/expenses/create" class="nav-link">Add Expense</a>
+                        </li>
+                        <li class="nav-item {{ Request::is('lendings/create') ? 'active' : '' }}">
+                          <a href="/lendings/create" class="nav-link">Lend Money</a>
+                        </li>
+                      @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->

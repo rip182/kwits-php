@@ -20,7 +20,7 @@
           <div class="form-group">
             <select name="user_id[]" class="form-control selectpicker" data-live-search="true" multiple data-selected-text-format="count > 3">
               @foreach($friends as $friend)
-                <option value="{{ $friend->recipient_id }}">{{ $friend->recipient->name }}</option>
+                <option value="{{ $friend->id }}">{{ $friend->name }}</option>
               @endforeach
             </select>
           </div>

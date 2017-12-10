@@ -17,16 +17,16 @@
                   <div class="panel-body">
                     @if($activity->payable_type == "App\User")
                       <h5>
-                        <a href="#"><small class="text-muted" style="margin-right: 5px;">{{ date("m/d/Y", strtotime($activity->created_at))  }}</small></a>
                         <small class="text-muted">Paid You</small>
+                        <a href="#"><small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small></a>
                         <span style="float:right; color:green;"><strong>+ Php {{ number_format($activity->amount, 2) }} </strong></span>
                       </h5>
                     @endif
 
                     @if($activity->payable_type == "App\Expense")
                       <h5>
-                        <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted" style="margin-right: 5px;">{{ date("m/d/Y", strtotime($activity->created_at))  }}</small></a>
                         <small class="text-muted">Seeded for <strong>{{ $activity->payable->name }}</strong> expenses</small>
+                        <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small></a>
                         <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
                       </h5>
                     @endif
@@ -36,7 +36,6 @@
                 @if($activity->expense)
                   <div class="panel-body">
                       <h5>
-                        <a href="/expenses/{{ $activity->expense->id }}"><small class="text-muted" style="margin-right: 5px;">{{ date("m/d/Y", strtotime($activity->created_at))  }}</small></a>
                         <small class="text-muted">Leeched you
                           @php $names = []; @endphp
                           @foreach($activity->expense->leechers as $key => $leech)
@@ -48,6 +47,7 @@
                             with {!! join(', and ', array_filter(array_merge(array(join(', ', array_slice($names, 0, -1))), array_slice($names, -1)), 'strlen')); !!}
                           @endif
                           for <strong>{{ $activity->expense->name }}</strong> expenses</small>
+                          <a href="/expenses/{{ $activity->expense->id }}"><small class="text-muted" style="margin-right: 5px;">{{ $activity->created_at->diffForHumans()  }}</small></a>
                         <span style="float:right; color: #bf5329;"><strong>- Php {{ number_format($activity->amount, 2) }}</strong></span>
                       </h5>
                   </div>

@@ -29,7 +29,7 @@ class ExpensesController extends Controller
     public function create()
     {
         $user = User::find(auth()->id());
-        $friends = $user->getAcceptedFriendships();
+        $friends = $user->getFriends();
         $friend_requests = $user->getFriendRequests();
 
         return view('expenses.create', compact('friends', 'friend_requests'));
@@ -89,7 +89,10 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense)
     {
-        return view('expenses.show', compact('expense'));
+        $user = User::find(auth()->id());
+        $friend_requests = $user->getFriendRequests();
+
+        return view('expenses.show', compact('expense', 'friend_requests'));
     }
 
     /**

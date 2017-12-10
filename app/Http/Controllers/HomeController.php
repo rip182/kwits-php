@@ -28,19 +28,19 @@ class HomeController extends Controller
     {
         $user = User::find(Auth::id());
 
-        $users  = $user->getAcceptedFriendships();
+        $users  = $user->getFriends();
 
         $total_owes = 0;
 
         $friends = collect($users)->map(function ($friend) use ($user, &$total_owes) {
             //@NOTE: codes below are reused in FriendsController
-            $obligations        = $friend->recipient->obligations($user->id)->sum('amount');
+            $obligations        = $friend->obligations($user->id)->sum('amount');
 
-            $user_contributions = $user->contributions($friend->recipient_id)->sum('amount');
+            $user_contributions = $user->contributions($friend->id)->sum('amount');
 
-            $friend_seeds       = $friend->recipient->seeds($user->id)->sum('amount');
+            $friend_seeds       = $friend->seeds($user->id)->sum('amount');
 
-            $user_debts         = $user->debts($friend->recipient_id)->sum('amount');
+            $user_debts         = $user->debts($friend->id)->sum('amount');
 
             $owes               = ($obligations + $user_contributions) - ($friend_seeds + $user_debts);
 
@@ -48,13 +48,13 @@ class HomeController extends Controller
 
             return [
 
-              'id'              => $friend->recipient_id,
+              'id'              => $friend->id,
 
-              'name'            => $friend->recipient->name,
+              'name'            => $friend->name,
 
               'owes'            => $owes,
 
-              'path'            => "/friends/" . $friend->recipient_id,
+              'path'            => "/friends/" . $friend->id,
 
             ];
 

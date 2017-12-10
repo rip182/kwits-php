@@ -8,8 +8,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                   <h5>
-                    <small class="text-muted" style="margin-right: 5px;">{{ date("m/d/Y", strtotime($request->created_at))  }}</small>
-                    {{ $request->sender->name }}
+                    {{ $request->sender->name }} sent you a friend request
+                    <small class="text-muted">{{ $request->created_at->diffForHumans() }}</small>
                     <form class="form-group" action="/friend-requests" method="post" style="float:right;">
                       {{ csrf_field() }}
                       <input type="hidden" name="sender_id" value="{{ $request->sender->id }}">
