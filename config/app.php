@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Kwits'),
 
     /*
     |--------------------------------------------------------------------------
@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
+        Hootlex\Friendships\FriendshipsServiceProvider::class,
     ],
 
     /*

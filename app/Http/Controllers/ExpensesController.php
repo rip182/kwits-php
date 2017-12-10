@@ -28,9 +28,11 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $friends = User::where('id', '!=', auth()->id())->get();
+        $user = User::find(auth()->id());
+        $friends = $user->getAcceptedFriendships();
+        $friend_requests = $user->getFriendRequests();
 
-        return view('expenses.create', compact('friends'));
+        return view('expenses.create', compact('friends', 'friend_requests'));
     }
 
     /**

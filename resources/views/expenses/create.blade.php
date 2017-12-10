@@ -18,9 +18,9 @@
             <input name="amount" type="number" min="1" step="any" class="form-control" id="exampleInputPassword1" placeholder="Amount">
           </div>
           <div class="form-group">
-            <select name="user_id[]" class="form-control selectpicker" multiple data-selected-text-format="count > 3">
+            <select name="user_id[]" class="form-control selectpicker" data-live-search="true" multiple data-selected-text-format="count > 3">
               @foreach($friends as $friend)
-                <option value="{{ $friend->id }}">{{ $friend->name }}</option>
+                <option value="{{ $friend->recipient_id }}">{{ $friend->recipient->name }}</option>
               @endforeach
             </select>
           </div>

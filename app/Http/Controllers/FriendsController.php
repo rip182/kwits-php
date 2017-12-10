@@ -25,7 +25,31 @@ class FriendsController extends Controller
      */
     public function create()
     {
-        //
+        $user = User::find(auth()->id());
+
+        $friend_requests = $user->getFriendRequests();
+
+        return view('friends.create', compact('friend_requests'));
+    }
+
+    public function friendRequests()
+    {
+        $user = User::find(auth()->id());
+
+        $friend_requests = $user->getFriendRequests();
+
+        return view('friends.requests', compact('friend_requests'));
+    }
+
+    public function acceptFriendship(Request $request)
+    {
+        $user = User::find(auth()->id());
+
+        $sender = User::find($request->sender_id);
+
+        $user->acceptFriendRequest($sender);
+
+        return redirect()->back();
     }
 
     /**
@@ -36,7 +60,16 @@ class FriendsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::find(auth()->id());
+        $recipient = User::where('email', $request->email)->first();
+
+
+        if($recipient) {
+            $user->befriend($recipient);
+        }
+
+
+        return redirect()->back();
     }
 
     /**
@@ -77,7 +110,9 @@ class FriendsController extends Controller
           'percentage'        => ceil($percentage),
         ];
 
-        return view('friends.show', compact('friend', 'summary'));
+        $friend_requests = $user->getFriendRequests();
+
+        return view('friends.show', compact('friend', 'summary', 'friend_requests'));
     }
 
     /**

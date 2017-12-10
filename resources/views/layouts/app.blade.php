@@ -37,8 +37,17 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                      <li class="nav-item active">
+                      <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
                         <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item {{ Request::is('friends/create') ? 'active' : '' }}">
+                        <a href="/friends/create" class="nav-link">Invite Friends</a>
+                      </li>
+                      <li class="nav-item {{ Request::is('expenses/create') ? 'active' : '' }}">
+                        <a href="/expenses/create" class="nav-link">Add Expense</a>
+                      </li>
+                      <li class="nav-item {{ Request::is('lendings/create') ? 'active' : '' }}">
+                        <a href="/lendings/create" class="nav-link">Lend Money</a>
                       </li>
                     </ul>
 
@@ -51,10 +60,15 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->name }} <span class="badge">@if($friend_requests->count()) {{$friend_requests->count() }} @endif</span> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
+                                    @if($friend_requests->count())
+                                      <li>
+                                        <a href="/friend-requests">Friend requests <span class="badge">{{$friend_requests->count() }}</span></a>
+                                      </li>
+                                    @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

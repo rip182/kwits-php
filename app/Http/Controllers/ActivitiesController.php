@@ -65,7 +65,9 @@ class ActivitiesController extends Controller
 
         $activities_sorted = $activities->sortByDesc('created_at');
 
-        return view('activities.show', compact('activities_sorted', 'friend'));
+        $friend_requests = $user->getFriendRequests();
+
+        return view('activities.show', compact('activities_sorted', 'friend', 'friend_requests'));
     }
 
     /**
