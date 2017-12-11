@@ -90,9 +90,13 @@ class FriendsController extends Controller
 
         $user_debts           = $user->debts($friend->id)->sum('amount');
 
-        $total                = $obligations + $user_contributions;
+        $friend_lendings      = $friend->lendings($user->id)->sum('amount');
 
-        $friend_contributions = $friend_seeds + $user_debts;
+        $user_lendings        = $user->lendings($friend->id)->sum('amount');
+
+        $total                = $user_lendings + $obligations + $user_contributions;
+
+        $friend_contributions = $friend_seeds + $user_debts + $friend_lendings;
 
         $owes                 = $total - $friend_contributions;
 

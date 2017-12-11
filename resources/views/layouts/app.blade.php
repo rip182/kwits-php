@@ -65,8 +65,10 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="badge">@if($friend_requests->count()) {{$friend_requests->count() }} @endif</span> <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu">
+                                  <li>
+                                    <a href="/profile">My Profile</a>
+                                  </li>
                                     @if($friend_requests->count())
                                       <li>
                                         <a href="/friend-requests">Friend requests <span class="badge">{{$friend_requests->count() }}</span></a>

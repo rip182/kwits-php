@@ -47,13 +47,15 @@ class ActivitiesController extends Controller
      */
     public function show(User $friend)
     {
-        $user = User::find(Auth::id());
+        $user = User::find(auth()->id());
 
-        $expense_payments = $friend->expensePayments($user);
+        $expense_payments     = $friend->expensePayments($user);
 
-        $seeds = $friend->seeds($user->id);
+        $seeds                = $friend->seeds($user->id);
 
-        $obligations = $friend->obligations($user->id);
+        $obligations          = $friend->obligations($user->id);
+
+        $friend_lendings      = $friend->lendings($user->id);
 
         $activities = collect();
 
@@ -62,6 +64,8 @@ class ActivitiesController extends Controller
         $activities = $activities->merge($seeds);
 
         $activities = $activities->merge($obligations);
+
+        $activities = $activities->merge($friend_lendings);
 
         $activities_sorted = $activities->sortByDesc('created_at');
 

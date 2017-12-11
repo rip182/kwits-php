@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Leech;
+use App\Lending;
 
 class HomeController extends Controller
 {
@@ -42,7 +43,11 @@ class HomeController extends Controller
 
             $user_debts         = $user->debts($friend->id)->sum('amount');
 
-            $owes               = ($obligations + $user_contributions) - ($friend_seeds + $user_debts);
+            $friend_lendings    = $friend->lendings($user->id)->sum('amount');
+
+            $user_lendings      = $user->lendings($friend->id)->sum('amount');
+
+            $owes               = ($user_lendings + $obligations + $user_contributions) - ($friend_seeds + $user_debts + $friend_lendings);
 
             $total_owes         += $owes;
 

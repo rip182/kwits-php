@@ -29,20 +29,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function expensePayments($user) {
-      $expense_ids = [];
+    public function expensePayments($user = null) {
+      if($user == null) {
+        return $this->payments()->where('payable_type', 'App\Expense')->get();
+      } else {
+        $expense_ids = [];
 
-      $leeches = $user->leeches()->where('leech_from', $this->id)->get();
+        $leeches = $user->leeches()->where('leech_from', $this->id)->get();
 
-      foreach($leeches as $leech) {
-        $expense_ids[] = $leech->expense_id;
+        foreach($leeches as $leech) {
+          $expense_ids[] = $leech->expense_id;
+        }
+
+        if(empty($expense_ids))
+          return collect();
+
+
+        return $this->payments()->where('payable_type', 'App\Expense')->whereIn('payable_id', $expense_ids)->get();
       }
-
-      if(empty($expense_ids))
-        return collect();
-
-      return $this->payments()->where('payable_type', 'App\Expense')->whereIn('payable_id', $expense_ids)->get();
-
     }
 
     public function leeches() {
@@ -53,12 +57,24 @@ class User extends Authenticatable
       return $this->hasMany('App\Payment', 'user_id');
     }
 
+    public function lendings($id = null) {
+      if($id == null)
+        return $this->hasMany('App\Lending', 'user_id');
+
+      return $this->hasMany('App\Lending', 'user_id')->where('recipient_id', $id)->get();
+    }
+
     //Friend methods
-    public function obligations($id) {
+    public function obligations($id = null) {
+      if($id == null)
+        return $this->leeches()->get();
       return $this->leeches()->where('leech_from', $id)->get();
     }
 
-    public function seeds($id) {
+    public function seeds($id = null) {
+      if($id == null)
+        return $this->payments()->where('payable_type', 'App\User')->get();
+
       return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
     }
 
