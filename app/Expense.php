@@ -29,6 +29,11 @@ class Expense extends Model
   protected static function boot()
   {
     parent::boot();
+
+    static::deleting(function($expense){
+      $expense->leechers->each->delete();
+      $expense->payment->delete();
+    });
   }
 
 }

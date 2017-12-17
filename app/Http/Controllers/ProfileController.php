@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Activity;
 
 class ProfileController extends Controller
 {
     public function myProfile()
     {
-      $user = User::find(auth()->id());
+      $user = auth()->user();
 
-      $activities =  $user->activities()->with('subject')->orderBy('created_at', 'Desc')->get();
-      
-      $friend_requests = $user->getFriendRequests();
-
-      return view('profiles.my-profile', compact('activities', 'user', 'friend_requests'));
+      return view('profiles.my-profile', [
+        'user' => $user,
+        'activities' => Activity::feed($user),
+        'friend_requests' => $user->getFriendRequests(),
+      ]);
     }
 }

@@ -9,16 +9,21 @@
           </div>
       </div>
   </div>
-  @forelse($activities as $activity)
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                @include("profiles.activities.{$activity->type}")
-              </div>
-            </div>
-        </div>
+  @forelse($activities as $date => $activity)
+    <div class="col-md-8 col-md-offset-2">
+      <h3 class="page-header">{{ $date }}</h3>
     </div>
+    @foreach($activity as $record)
+      <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  @include("profiles.activities.{$record->type}", ['activity' => $record])
+                </div>
+              </div>
+          </div>
+      </div>
+    @endforeach
   @empty
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
