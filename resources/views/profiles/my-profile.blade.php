@@ -9,7 +9,7 @@
           </div>
       </div>
   </div>
-  @foreach($activities_sorted as $activity)
+  @forelse($activities_sorted as $activity)
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -98,7 +98,16 @@
             </div>
         </div>
     </div>
-  @endforeach
+  @empty
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                      <p>No activity yet.</p>
+                </div>
+            </div>
+        </div>
+  @endforelse
   <div class="modal fade" id="deleteExpenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

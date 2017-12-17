@@ -50,16 +50,19 @@ class LendingsController extends Controller
       ]);
 
       foreach($request->recipient_id as $recipient_id) {
-        $lendings[] = [
+        Lending::create([
           'user_id'    => auth()->id(),
           'recipient_id' => $recipient_id,
           'amount'     => $request->amount,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now(),
-        ];
+        ]);
+        // $lendings[] = [
+        //
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now(),
+        // ];
       }
 
-      Lending::insert($lendings);
+      // Lending::insert($lendings);
 
       return redirect()->back();
 
@@ -107,6 +110,8 @@ class LendingsController extends Controller
      */
     public function destroy(Lending $lending)
     {
+        $this->authorize('delete', $lending);
+
         $lending->delete();
 
         return redirect()->back();

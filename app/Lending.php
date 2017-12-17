@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lending extends Model
 {
+  use RecordsActivity;
+
   /**
    * The attributes that are mass assignable.
    *
@@ -23,6 +25,11 @@ class Lending extends Model
   public function recipient()
   {
       return $this->belongsTo('App\User', 'recipient_id');
+  }
+
+  protected static function boot()
+  {
+    parent::boot();
   }
 
 }

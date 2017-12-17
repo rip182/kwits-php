@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
 
+  use RecordsActivity;
+
   /**
    * The attributes that are mass assignable.
    *
@@ -23,4 +25,10 @@ class Expense extends Model
   public function payment() {
     return $this->morphOne('App\Payment', 'payable');
   }
+
+  protected static function boot()
+  {
+    parent::boot();
+  }
+
 }
