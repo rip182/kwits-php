@@ -62,9 +62,15 @@ class LendingsController extends Controller
         // ];
       }
 
+      $recipients = User::whereIn('id', $request->recipient_id)->get();
+
+
+
       // Lending::insert($lendings);
 
-      return redirect()->back();
+      return redirect()
+        ->back()
+        ->with('flash', "You just lent Php" . $request->amount . " to " . $this->formatNames($recipients) );
 
     }
 
@@ -115,5 +121,19 @@ class LendingsController extends Controller
         $lending->delete();
 
         return redirect()->back();
+    }
+
+    protected function formatNames($recipients)
+    {
+      $names = [];
+
+      foreach($recipients as $recipient) {
+        $names[] = $recipient->name;
+      }
+
+      if ( ! empty($names) ) {
+        return join(', and ', array_filter(array_merge(array(join(', ', array_slice($names, 0, -1))), array_slice($names, -1)), 'strlen'));
+      }
+
     }
 }

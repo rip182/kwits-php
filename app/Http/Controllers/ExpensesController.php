@@ -74,7 +74,8 @@ class ExpensesController extends Controller
           ]);
         }
 
-        return redirect('home');
+        return redirect('home')
+          ->with('flash', 'A new expense has been created.');
     }
 
     /**

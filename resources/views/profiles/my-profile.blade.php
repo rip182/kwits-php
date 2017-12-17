@@ -18,7 +18,9 @@
           <div class="col-md-8 col-md-offset-2">
               <div class="panel panel-default">
                 <div class="panel-body">
-                  @include("profiles.activities.{$record->type}", ['activity' => $record])
+                  @if(view()->exists("profiles.activities.{$record->type}"))
+                    @include("profiles.activities.{$record->type}", ['activity' => $record])
+                  @endif
                 </div>
               </div>
           </div>
