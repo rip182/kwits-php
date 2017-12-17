@@ -126,6 +126,10 @@ class ExpensesController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $expense->leechers()->delete();
+        $expense->payment()->delete();
+        $expense->delete();
+
+        return redirect()->back();
     }
 }
