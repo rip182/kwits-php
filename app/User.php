@@ -87,4 +87,9 @@ class User extends Authenticatable
       return $this->leeches()->where('leech_from', $id)->get();
     }
 
+    public function activities()
+    {
+      return $this->hasMany('App\Activity');
+    }
+
 }

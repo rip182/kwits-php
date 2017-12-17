@@ -9,92 +9,13 @@
           </div>
       </div>
   </div>
-  @forelse($activities_sorted as $activity)
+  @forelse($activities as $activity)
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                @if($activity->payable)
-                  <div class="panel-body">
-                    @if($activity->payable_type == "App\User")
-                      <h5 style="float:left;">Paid</h5>
-                      <div class="dropdown" style="float:right;">
-                        <i type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li>
-                              <a data-toggle="modal" data-target="#deletePaymentModal" data-payment-id="{{ $activity->id }}" href="#">Delete</a>
-                            </li>
-                        </ul>
-                      </div>
-                      <div style="clear:both;"></div>
-                      <h5>
-                        <small class="text-muted">You paid <strong> {{ $activity->payable->name }} </strong></small>
-                        <a href="#"><small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small></a>
-                        <span style="float:right; color:green;"><strong>+ Php {{ number_format($activity->amount, 2) }} </strong></span>
-
-                      </h5>
-                    @endif
-
-                    @if($activity->payable_type == "App\Expense")
-                      <h5 style="float:left;">Seeded</h5>
-                      <div class="dropdown" style="float:right;">
-                        <i id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li>
-                              <a data-toggle="modal" data-target="#deleteExpenseModal" data-expense-name="{{ $activity->payable->name }}" data-expense-id="{{ $activity->payable->id }}" href="#">Delete</a>
-                            </li>
-                        </ul>
-                      </div>
-                      <div style="clear:both;"></div>
-                      <h5>
-                        <small class="text-muted">You seeded for <strong>{{ $activity->payable->name }}</strong> expenses</small>
-                        <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small></a>
-                        <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
-                      </h5>
-                    @endif
-                  </div>
-                @endif
-
-                @if($activity->expense)
-                  <div class="panel-body">
-                    <h5 style="float:left;">Leeched</h5>
-                    <div style="clear:both;"></div>
-                      <h5>
-                        <small class="text-muted">You leeched
-                          @php $names = []; @endphp
-                          @foreach($activity->expense->leechers as $key => $leech)
-                            @if($leech->user_id != auth()->id())
-                              @php $names[] = "<a href='/friends/{$leech->user_id}'>{$leech->user->name}</a>"; @endphp
-                            @endif
-                          @endforeach
-                          @if( ! empty($names))
-                            with {!! join(', and ', array_filter(array_merge(array(join(', ', array_slice($names, 0, -1))), array_slice($names, -1)), 'strlen')); !!}
-                          @endif
-                          for <strong>{{ $activity->expense->name }}</strong> expenses paid by <a href="/friends/"{{$activity->expense->payment->user->id}}>{{ $activity->expense->payment->user->name }}</a></small>
-                          <a href="/expenses/{{ $activity->expense->id }}"><small class="text-muted" style="margin-right: 5px;">{{ $activity->created_at->diffForHumans()  }}</small></a>
-                        <span style="float:right; color: #bf5329;"><strong>- Php {{ number_format($activity->amount, 2) }}</strong></span>
-                      </h5>
-                  </div>
-                @endif
-
-                @if(class_basename($activity) == "Lending")
-                  <div class="panel-body">
-                    <h5 style="float:left;">Lent</h5>
-                    <div class="dropdown" style="float:right;">
-                      <i type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
-                      <ul class="dropdown-menu" aria-labelledby="dLabel">
-                          <li>
-                            <a data-toggle="modal" data-target="#deleteLendModal" data-lending-id="{{ $activity->id }}" href="#">Delete</a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <h5>
-                      <small class="text-muted">You lent money to <strong>{{ $activity->recipient->name }}</strong></small>
-                      <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
-                      <small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small>
-                    </h5>
-                  </div>
-                @endif
+              <div class="panel-body">
+                @include("profiles.activities.{$activity->type}")
+              </div>
             </div>
         </div>
     </div>
@@ -107,7 +28,9 @@
                 </div>
             </div>
         </div>
+    </div>
   @endforelse
+  {{-- Include below modals in partials above --}}
   <div class="modal fade" id="deleteExpenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

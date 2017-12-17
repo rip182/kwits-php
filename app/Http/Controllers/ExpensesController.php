@@ -55,7 +55,7 @@ class ExpensesController extends Controller
           'amount' => $request->amount
         ]);
 
-        Payment::create([
+        Payment::insert([
           'user_id'       => auth()->id(),
           'payable_id'    => $expense->id,
           'payable_type'  => 'App\Expense',
@@ -66,17 +66,13 @@ class ExpensesController extends Controller
         $owe_amount = $request->amount / $split;
 
         foreach($request->user_id as $user_id) {
-          $leeches[] = [
+          Leech::create([
             'user_id'    => $user_id,
             'leech_from' => auth()->id(),
             'expense_id' => $expense->id,
             'amount'     => $owe_amount,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-          ];
+          ]);
         }
-
-        Leech::insert($leeches);
 
         return redirect('home');
     }
