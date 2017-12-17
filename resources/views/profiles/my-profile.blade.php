@@ -16,6 +16,16 @@
                 @if($activity->payable)
                   <div class="panel-body">
                     @if($activity->payable_type == "App\User")
+                      <h5 style="float:left;">Paid</h5>
+                      <div class="dropdown" style="float:right;">
+                        <i type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                              <a data-toggle="modal" data-target="#deletePaymentModal" data-payment-id="{{ $activity->id }}" href="#">Delete</a>
+                            </li>
+                        </ul>
+                      </div>
+                      <div style="clear:both;"></div>
                       <h5>
                         <small class="text-muted">You paid <strong> {{ $activity->payable->name }} </strong></small>
                         <a href="#"><small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small></a>
@@ -46,6 +56,8 @@
 
                 @if($activity->expense)
                   <div class="panel-body">
+                    <h5 style="float:left;">Leeched</h5>
+                    <div style="clear:both;"></div>
                       <h5>
                         <small class="text-muted">You leeched
                           @php $names = []; @endphp
@@ -137,6 +149,31 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="deletePaymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" id="deletePaymentForm">
+          <div class="modal-body">
+            {{ method_field('DELETE') }}
+            {{ csrf_field() }}
+            <div class="form-group">
+              <input type="hidden" name="payment_id" id="payment-id" value="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
@@ -165,6 +202,18 @@
       modal.find('.modal-title').text('Are you sure?')
       modal.find('.modal-body input#lending-id').val(lending_id)
       modal.find('#deleteLendForm').attr('action', '/lendings/'+lending_id);
+    })
+
+    $('#deletePaymentModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var payment_id = button.data('payment-id');
+
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('Are you sure?')
+      modal.find('.modal-body input#payment-id').val(payment_id)
+      modal.find('#deletePaymentForm').attr('action', '/payments/'+payment_id);
     })
   </script>
 @endsection

@@ -90,6 +90,8 @@ class PaymentsController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
+
+        return redirect()->back();
     }
 }
