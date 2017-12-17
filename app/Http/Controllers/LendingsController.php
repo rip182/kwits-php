@@ -107,6 +107,8 @@ class LendingsController extends Controller
      */
     public function destroy(Lending $lending)
     {
-        //
+        $lending->delete();
+
+        return redirect()->back();
     }
 }

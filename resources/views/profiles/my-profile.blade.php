@@ -25,7 +25,7 @@
                     @endif
 
                     @if($activity->payable_type == "App\Expense")
-                      <h5 style="float:left;">{{ $activity->payable->name }} expense</h5>
+                      <h5 style="float:left;">Seeded</h5>
                       <div class="dropdown" style="float:right;">
                         <i id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
@@ -66,6 +66,16 @@
 
                 @if(class_basename($activity) == "Lending")
                   <div class="panel-body">
+                    <h5 style="float:left;">Lent</h5>
+                    <div class="dropdown" style="float:right;">
+                      <i type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
+                      <ul class="dropdown-menu" aria-labelledby="dLabel">
+                          <li>
+                            <a data-toggle="modal" data-target="#deleteLendModal" data-lending-id="{{ $activity->id }}" href="#">Delete</a>
+                          </li>
+                      </ul>
+                    </div>
+                    <div style="clear:both;"></div>
                     <h5>
                       <small class="text-muted">You lent money to <strong>{{ $activity->recipient->name }}</strong></small>
                       <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
@@ -102,6 +112,31 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="deleteLendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" id="deleteLendForm">
+          <div class="modal-body">
+            {{ method_field('DELETE') }}
+            {{ csrf_field() }}
+            <div class="form-group">
+              <input type="hidden" name="lending_id" id="lending-id" value="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
@@ -115,9 +150,21 @@
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
-      modal.find('.modal-title').text('You sure you want to delete ' + expense_name + ' expense?')
+      modal.find('.modal-title').text('Are you sure you want to delete ' + expense_name + ' expense?')
       modal.find('.modal-body input#expense-id').val(expense_id)
       modal.find('#deleteExpenseForm').attr('action', '/expenses/'+expense_id);
+    })
+
+    $('#deleteLendModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var lending_id = button.data('lending-id');
+
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('Are you sure?')
+      modal.find('.modal-body input#lending-id').val(lending_id)
+      modal.find('#deleteLendForm').attr('action', '/lendings/'+lending_id);
     })
   </script>
 @endsection
