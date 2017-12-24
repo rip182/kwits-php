@@ -1,4 +1,4 @@
-<payment inline-template :attributes="{{ $activity }}" :friends="{{ $friends }}" :recipient="{{ $activity->subject->payable }}">
+<payment inline-template :attributes="{{ $activity }}" :friends="{{ $friends }}" :recipient="{{ $activity->subject->payable }}" v-cloak>
   <div class="payment">
     <h5 style="float:left;">Paid</h5>
     <div class="dropdown" style="float:right;">

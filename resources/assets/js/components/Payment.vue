@@ -19,7 +19,7 @@
 
         this.editing = false;
 
-        flash("Lend has been updated!");
+        flash("Payment has been updated!");
       },
 
       destroy() {

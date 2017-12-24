@@ -43503,8 +43503,26 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['attributes'],
+  data: function data() {
+    return {
+      editing: false,
+      amount: this.expense.amount
+    };
+  },
+
+
+  props: ['attributes', 'expense'],
   methods: {
+    update: function update() {
+      axios.patch('/expenses/' + this.expense.id, {
+        amount: this.amount,
+        name: this.expense.name
+      });
+
+      this.editing = false;
+
+      flash("Expense has been updated!");
+    },
     destroy: function destroy() {
       var _this = this;
 
@@ -43593,7 +43611,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.editing = false;
 
-      flash("Lend has been updated!");
+      flash("Payment has been updated!");
     },
     destroy: function destroy() {
       var _this = this;

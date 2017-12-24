@@ -1,7 +1,25 @@
 <script type="text/javascript">
   export default {
-    props: ['attributes'],
+    data() {
+      return {
+              editing: false,
+              amount: this.expense.amount,
+      };
+    },
+
+    props: ['attributes', 'expense'],
     methods: {
+      update() {
+        axios.patch('/expenses/' + this.expense.id, {
+          amount: this.amount,
+          name: this.expense.name,
+        });
+
+        this.editing = false;
+
+        flash("Expense has been updated!");
+      },
+
       destroy() {
         axios.delete('/expenses/' + this.attributes.subject.id);
 

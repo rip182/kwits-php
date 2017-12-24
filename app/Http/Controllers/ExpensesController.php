@@ -114,7 +114,25 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
-        //
+      $expense->update([
+        'name'          => $request->name,
+        'amount'       => $request->amount,
+      ]);
+
+      $expense->payment()->update([
+        'amount'        => $request->amount
+      ]);
+
+      $leechers = Leech::where('expense_id', $expense->id);
+
+      $split = $leechers->count() + 1;
+      $owe_amount = $request->amount / $split;
+
+      Leech::where('expense_id', $expense->id)->update([
+        'amount' => $owe_amount
+      ]);
+
+      return response(['status' => 'Expense updated']);
     }
 
     /**
