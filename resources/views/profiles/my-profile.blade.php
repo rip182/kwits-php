@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+@endsection
+
 @section('content')
 <div class="container">
   <div class="row">
@@ -29,6 +33,7 @@
 @endsection
 
 @section('scripts')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
     $('#deleteExpenseModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal

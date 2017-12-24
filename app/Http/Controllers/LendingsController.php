@@ -105,7 +105,12 @@ class LendingsController extends Controller
      */
     public function update(Request $request, Lending $lending)
     {
-        //
+        $lending->update([
+          'recipient_id' => $request->recipient_id,
+          'amount'       => $request->amount,
+        ]);
+
+        return response(['status' => 'Lend updated']);
     }
 
     /**

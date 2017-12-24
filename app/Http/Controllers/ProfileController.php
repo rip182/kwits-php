@@ -11,11 +11,13 @@ class ProfileController extends Controller
     public function myProfile()
     {
       $user = auth()->user();
+      $friends = $user->getFriends();
 
       return view('profiles.my-profile', [
         'user' => $user,
         'activities' => Activity::feed($user),
         'friend_requests' => $user->getFriendRequests(),
+        'friends'       => $friends,
       ]);
     }
 }
