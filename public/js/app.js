@@ -43422,6 +43422,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
+
   props: ['attributes', 'friends', 'recipient'],
   methods: {
     update: function update() {
@@ -43429,7 +43430,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         amount: this.amount,
         recipient_id: this.lendee.id
       });
-      console.log(this.lendee);
+
       this.editing = false;
 
       flash("Lend has been updated!");
@@ -43572,8 +43573,28 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['attributes'],
+  data: function data() {
+    return {
+      editing: false,
+      amount: this.attributes.subject.amount,
+      recipients: this.friends,
+      borrower: this.recipient
+    };
+  },
+
+
+  props: ['attributes', 'friends', 'recipient'],
   methods: {
+    update: function update() {
+      axios.patch('/payments/' + this.attributes.subject.id, {
+        amount: this.amount,
+        payable_id: this.borrower.id
+      });
+
+      this.editing = false;
+
+      flash("Lend has been updated!");
+    },
     destroy: function destroy() {
       var _this = this;
 

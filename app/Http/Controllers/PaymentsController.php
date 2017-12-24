@@ -79,7 +79,12 @@ class PaymentsController extends Controller
      */
     public function update(Request $request, Payment $payment)
     {
-        //
+      $payment->update([
+        'payable_id' => $request->payable_id,
+        'amount'       => $request->amount,
+      ]);
+
+      return response(['status' => 'Payment updated']);
     }
 
     /**

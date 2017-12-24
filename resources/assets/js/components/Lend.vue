@@ -8,6 +8,7 @@
               lendee: this.recipient,
       };
     },
+    
     props: ['attributes', 'friends', 'recipient'],
     methods: {
       update() {
@@ -15,7 +16,7 @@
           amount: this.amount,
           recipient_id: this.lendee.id,
         });
-        console.log(this.lendee);
+
         this.editing = false;
 
         flash("Lend has been updated!");

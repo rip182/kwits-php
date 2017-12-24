@@ -60,6 +60,8 @@ class ExpensesController extends Controller
           'payable_id'    => $expense->id,
           'payable_type'  => 'App\Expense',
           'amount'        => $request->amount,
+          'created_at'    => Carbon::now(),
+          'updated_at'    => Carbon::now(),
         ]);
 
         $split = count($request->user_id) + 1;
