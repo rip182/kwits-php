@@ -10,22 +10,7 @@
       </div>
   </div>
   @forelse($activities as $date => $activity)
-    <div class="col-md-8 col-md-offset-2">
-      <h3 class="page-header">{{ $date }}</h3>
-    </div>
-    @foreach($activity as $record)
-      <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  @if(view()->exists("profiles.activities.{$record->type}"))
-                    @include("profiles.activities.{$record->type}", ['activity' => $record])
-                  @endif
-                </div>
-              </div>
-          </div>
-      </div>
-    @endforeach
+    @include('profiles.activity')
   @empty
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -38,81 +23,8 @@
     </div>
   @endforelse
   {{-- Include below modals in partials above --}}
-  <div class="modal fade" id="deleteExpenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form method="post" id="deleteExpenseForm">
-          <div class="modal-body">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
-            <div class="form-group">
-              <input type="hidden" name="expense_id" id="expense-id" value="">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Confirm</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="deleteLendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form method="post" id="deleteLendForm">
-          <div class="modal-body">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
-            <div class="form-group">
-              <input type="hidden" name="lending_id" id="lending-id" value="">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Confirm</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="deletePaymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form method="post" id="deletePaymentForm">
-          <div class="modal-body">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
-            <div class="form-group">
-              <input type="hidden" name="payment_id" id="payment-id" value="">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Confirm</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  {{-- @include("profiles.modals.delete_expense")
+  @include("profiles.modals.delete_payment") --}}
 </div>
 @endsection
 

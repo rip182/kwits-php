@@ -125,6 +125,10 @@ class ExpensesController extends Controller
     {
         $expense->delete();
 
+        if(request()->expectsJson()) {
+          return response(['status' => "Expense deleted"]);
+        }
+
         return redirect()->back();
     }
 }

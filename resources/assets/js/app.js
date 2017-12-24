@@ -22,6 +22,9 @@ window.flash = function(message) {
  */
 
 Vue.component('flash', require('./components/Flash.vue'));
+Vue.component('lend', require('./components/Lend.vue'));
+Vue.component('expense', require('./components/Expense.vue'));
+Vue.component('payment', require('./components/Payment.vue'));
 
 const app = new Vue({
     el: '#app'

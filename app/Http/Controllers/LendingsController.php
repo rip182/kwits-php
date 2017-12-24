@@ -120,6 +120,10 @@ class LendingsController extends Controller
 
         $lending->delete();
 
+        if(request()->expectsJson()) {
+          return response(['status' => "Lend deleted"]);
+        }
+
         return redirect()->back();
     }
 
