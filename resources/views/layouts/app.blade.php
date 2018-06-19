@@ -45,11 +45,11 @@
                         <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
                           <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
                         </li>
+                        <li class="nav-item {{ Request::is('groups') ? 'active' : '' }}">
+                          <a class="nav-link" href="/groups">Groups</a>
+                        </li>
                         <li class="nav-item {{ Request::is('friends/create') ? 'active' : '' }}">
                           <a href="/friends/create" class="nav-link">Invite Friends</a>
-                        </li>
-                        <li class="nav-item {{ Request::is('expenses/create') ? 'active' : '' }}">
-                          <a href="/expenses/create" class="nav-link">Add Expense</a>
                         </li>
                         <li class="nav-item {{ Request::is('lendings/create') ? 'active' : '' }}">
                           <a href="/lendings/create" class="nav-link">Lend Money</a>
