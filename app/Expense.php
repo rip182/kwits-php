@@ -15,7 +15,7 @@ class Expense extends Model
    * @var array
    */
   protected $fillable = [
-      'name', 'amount',
+      'name', 'amount', 'group_id',
   ];
 
   public function leechers() {
@@ -24,6 +24,10 @@ class Expense extends Model
 
   public function payment() {
     return $this->morphOne('App\Payment', 'payable');
+  }
+
+  public function group() {
+    return $this->belongsTo('App\Group');
   }
 
   protected static function boot()

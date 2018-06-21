@@ -48,10 +48,12 @@ class ExpensesController extends Controller
         $this->validate($request, [
           'amount'  => 'required',
           'user_id' => 'required',
+          'group_id' => 'required',
         ]);
 
         $expense = Expense::create([
           'name' => $request->name,
+          'group_id' => $request->group_id,
           'amount' => $request->amount
         ]);
 
@@ -76,7 +78,8 @@ class ExpensesController extends Controller
           ]);
         }
 
-        return redirect('home')
+        return redirect()
+          ->back()
           ->with('flash', 'A new expense has been created.');
     }
 

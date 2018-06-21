@@ -3,11 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-use App\User;
+use App\Group;
 
-class RedirectIfNotLoggedIn
+class RedirectIfGroupHasNoMembers
 {
     /**
      * Handle an incoming request.
@@ -18,16 +17,11 @@ class RedirectIfNotLoggedIn
      */
     public function handle($request, Closure $next)
     {
-        $user = User::find(Auth::id());
+        $members = $request->get('members');
 
-        if($user) {
+        if($members->count() == 1)
+          return redirect('home');
 
-          $request->attributes->add(['user' => $user]);
-
-          return $next($request);
-
-        }
-
-        return redirect('login');
+        return $next($request);
     }
 }

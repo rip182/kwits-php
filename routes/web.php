@@ -43,5 +43,5 @@ Route::get('/groups/create', [
 ]);
 Route::get('/groups/{id}', [
   'uses' => 'GroupsController@show',
-  'middleware' => ['loggedIn', 'hasGroup']
+  'middleware' => ['loggedIn', 'isMemberToGroup', 'hasMembers']
 ]);

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use App\Group;
 use App\Member;
+use App\Payment;
 
 class GroupsController extends Controller
 {
@@ -76,7 +77,8 @@ class GroupsController extends Controller
         ]);
       }
 
-      return redirect('home')
+      return redirect()
+        ->back()
         ->with('flash', 'A new group has been created.');
 
     }
@@ -89,7 +91,21 @@ class GroupsController extends Controller
      */
     public function show($id)
     {
-        //
+      $user = $this->request->get('user');
+
+      $group = $this->request->get('group');
+
+      $members = $this->request->get('members');
+
+      $expense_ids       = $group->expenses()->pluck('expenses.id')->toArray();
+
+      $total_expenses    = $group->expenses()->sum('amount');
+
+      $payments = Payment::whereIn('payable_id', $expense_ids)->where('payable_type', 'App\Expense')->orderBy('created_at', 'DESC')->get();
+
+      $friend_requests = $user->getFriendRequests();
+
+      return view('groups.show', compact('group', 'friend_requests', 'members', 'payments', 'total_expenses'));
     }
 
     /**

@@ -29,6 +29,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function expensePayment($expense_id)
+    {
+      return $this->payments()->where('payable_type', 'App\Expense')->where('payable_id', $expense_id)->first();
+    }
+
     public function expensePayments($user = null) {
       if($user == null) {
         return $this->payments()->where('payable_type', 'App\Expense')->get();
@@ -68,11 +73,30 @@ class User extends Authenticatable
       return $this->hasMany('App\Lending', 'user_id')->where('recipient_id', $id)->get();
     }
 
+    public function groupObligations($id, $expense_ids)
+    {
+      return $this->leeches()->where('leech_from', $id)->whereIn('expense_id', $expense_ids)->get();
+    }
+
     //Friend methods
     public function obligations($id = null) {
       if($id == null)
         return $this->leeches()->get();
       return $this->leeches()->where('leech_from', $id)->get();
+    }
+
+    public function otherSeeds($id = null) {
+      if($id == null)
+        return $this->payments()->where('payable_type', 'App\User')->get();
+
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('group_id')->get();
+    }
+
+    public function groupSeeds($id = null, $group_id) {
+      if($id == null)
+        return $this->payments()->where('payable_type', 'App\User')->get();
+
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('group_id', $group_id)->get();
     }
 
     public function seeds($id = null) {
@@ -82,9 +106,22 @@ class User extends Authenticatable
       return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
     }
 
+    public function otherContributions($id) {
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('group_id')->get();
+    }
+
+    public function groupContributions($id, $group_id) {
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('group_id', $group_id)->get();
+    }
+
     //User methods
     public function contributions($id) {
       return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
+    }
+
+    public function groupDebts($id, $expense_ids)
+    {
+      return $this->leeches()->where('leech_from', $id)->whereIn('expense_id', $expense_ids)->get();
     }
 
     public function debts($id) {

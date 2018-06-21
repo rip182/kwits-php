@@ -21,7 +21,11 @@ class Group extends Model
     return $this->belongsTo('App\User');
   }
 
-  public function groups() {
+  public function members() {
     return $this->hasMany('App\Member');
+  }
+
+  public function expenses() {
+    return $this->hasMany('App\Expense');
   }
 }

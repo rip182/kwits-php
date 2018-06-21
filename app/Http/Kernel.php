@@ -59,5 +59,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'hasGroup' => \App\Http\Middleware\RedirectIfNoGroup::class,
         'loggedIn' => \App\Http\Middleware\RedirectIfNotLoggedIn::class,
+        'hasMembers' => \App\Http\Middleware\RedirectIfGroupHasNoMembers::class,
+        'isMemberToGroup' => \App\Http\Middleware\RedirectIfUserNotMemberToGroup::class,
+        'hasRecentActivity' => \App\Http\Middleware\RedirectIfHasRecentActivity::class,
     ];
 }
