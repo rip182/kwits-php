@@ -53,7 +53,11 @@
       </div>
     </div>
 
-    @foreach($payments as $payment)
+    @foreach($payments as $date => $payment)
+      <div class="col-md-8 col-md-offset-2">
+        <h3 class="page-header">{{ ($date == date("Y-m-d") ? "Today" : date("M d, Y", strtotime($date))) }}</h3>
+      </div>
+      @foreach($payment as $activity)
       <div class="row">
           <div class="col-md-8 col-md-offset-2">
               <div class="panel panel-default">
@@ -61,9 +65,9 @@
                     <div class="panel-body">
                       {{-- @if($activity->payable_type == "App\Expense") --}}
                         <h5>
-                          <small class="text-muted">{{ ($payment->user_id == Auth::user()->id ? "You" : $payment->user->name) }} paid for <strong>{{ $payment->payable->name }}</strong> expenses</small>
-                          <a href="/expenses/{{ $payment->payable->id }}"><small class="text-muted">{{ $payment->created_at->diffForHumans()  }}</small></a>
-                          <span style="float:right;">Php {{ number_format($payment->amount, 2) }}</span>
+                          <small class="text-muted">{{ ($activity->user_id == Auth::user()->id ? "You" : $activity->user->name) }} paid for <strong>{{ $activity->payable->name }}</strong> expenses</small>
+                          <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small></a>
+                          <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
                         </h5>
                       {{-- @endif --}}
                     </div>
@@ -104,6 +108,7 @@
           </div>
       </div>
     @endforeach
+  @endforeach
 </div>
 @endsection
 

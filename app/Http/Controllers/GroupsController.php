@@ -101,7 +101,15 @@ class GroupsController extends Controller
 
       $total_expenses    = $group->expenses()->sum('amount');
 
-      $payments = Payment::whereIn('payable_id', $expense_ids)->where('payable_type', 'App\Expense')->orderBy('created_at', 'DESC')->get();
+      $payments = Payment::whereIn('payable_id', $expense_ids)
+        ->latest()
+        ->with('payable')
+        ->where('payable_type', 'App\Expense')
+        ->orderBy('created_at', 'DESC')
+        ->get()
+        ->groupBy(function($payment){
+          return $payment->created_at->format("Y-m-d");
+        });
 
       $friend_requests = $user->getFriendRequests();
 
