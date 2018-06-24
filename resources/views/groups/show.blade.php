@@ -26,28 +26,12 @@
         </div>
     </div>
 
+    {{-- @TODO - christian find a way to hide this form on initial load, and only display this via a modal when a button is clicked.  --}}
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
           <div class="panel-body">
-            <form action="/expenses" method="POST">
-              {{ csrf_field() }}
-              <input type="hidden" name="group_id" value="{!! $group->id !!}">
-              <div class="form-group">
-                <input name="amount" type="number" class="form-control" placeholder="0.00" autofocus>
-              </div>
-              <div class="form-group">
-                <input name="name" type="text" class="form-control" placeholder="e.g. Dinner, Bus Fare, etc.">
-              </div>
-              <div class="form-group">
-                <select id="members" name="user_id[]" class="form-control selectpicker" data-actionsBox="true" data-live-search="true" multiple data-selected-text-format="count > 3">
-                  @foreach($members as $member)
-                    <option value="{{ $member->user->id }}">{{ $member->user->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            @include("groups.splits.options", ["members" => $members])
           </div>
         </div>
       </div>
@@ -61,49 +45,13 @@
       <div class="row">
           <div class="col-md-8 col-md-offset-2">
               <div class="panel panel-default">
-                  {{-- @if($activity->payable) --}}
                     <div class="panel-body">
-                      {{-- @if($activity->payable_type == "App\Expense") --}}
                         <h5>
                           <small class="text-muted">{{ ($activity->user_id == Auth::user()->id ? "You" : $activity->user->name) }} paid for <strong>{{ $activity->payable->name }}</strong> expenses</small>
                           <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small></a>
                           <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
                         </h5>
-                      {{-- @endif --}}
                     </div>
-                  {{-- @endif --}}
-
-                  {{-- @if($activity->expense)
-                    <div class="panel-body">
-                        <h5>
-                          <small class="text-muted">Leeched you
-                            @php $names = []; @endphp
-                            @foreach($activity->expense->leechers as $key => $leech)
-                              @if($leech->user_id != $friend->id)
-                                @php $names[] = "<a href='/friends/{$leech->user_id}'>{$leech->user->name}</a>"; @endphp
-                              @endif
-                            @endforeach
-                            @if( ! empty($names))
-                              with {!! join(', and ', array_filter(array_merge(array(join(', ', array_slice($names, 0, -1))), array_slice($names, -1)), 'strlen')); !!}
-                            @endif
-                            for <strong>{{ $activity->expense->name }}</strong> expenses</small>
-                            <a href="/expenses/{{ $activity->expense->id }}"><small class="text-muted" style="margin-right: 5px;">{{ $activity->created_at->diffForHumans()  }}</small></a>
-                          <span style="float:right; color: #bf5329;"><strong>- Php {{ number_format($activity->amount, 2) }}</strong></span>
-                        </h5>
-                    </div>
-                  @endif --}}
-
-                  {{-- @if(class_basename($activity) == "Lending")
-                    @if($activity->recipient_id == auth()->id())
-                      <div class="panel-body">
-                        <h5>
-                          <small class="text-muted"><strong>{{ $activity->user->name }}</strong> lent you money</small>
-                          <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
-                          <small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small>
-                        </h5>
-                      </div>
-                    @endif
-                  @endif --}}
               </div>
           </div>
       </div>

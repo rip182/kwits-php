@@ -25,6 +25,7 @@ Vue.component('flash', require('./components/Flash.vue'));
 Vue.component('lend', require('./components/Lend.vue'));
 Vue.component('expense', require('./components/Expense.vue'));
 Vue.component('payment', require('./components/Payment.vue'));
+Vue.component('leech', require('./components/Leech.vue'));
 
 const app = new Vue({
     el: '#app'

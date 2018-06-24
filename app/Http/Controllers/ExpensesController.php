@@ -43,39 +43,77 @@ class ExpensesController extends Controller
      */
     public function store(Request $request)
     {
-        $leeches = [];
-
         $this->validate($request, [
           'amount'  => 'required',
           'user_id' => 'required',
           'group_id' => 'required',
         ]);
 
-        $expense = Expense::create([
-          'name' => $request->name,
-          'group_id' => $request->group_id,
-          'amount' => $request->amount
-        ]);
+        if($request->equal == 'true') {
+          $split = count($request->user_id) + 1;
+          $owe_amount = $request->amount / $split;
 
-        Payment::insert([
-          'user_id'       => auth()->id(),
-          'payable_id'    => $expense->id,
-          'payable_type'  => 'App\Expense',
-          'amount'        => $request->amount,
-          'created_at'    => Carbon::now(),
-          'updated_at'    => Carbon::now(),
-        ]);
-
-        $split = count($request->user_id) + 1;
-        $owe_amount = $request->amount / $split;
-
-        foreach($request->user_id as $user_id) {
-          Leech::create([
-            'user_id'    => $user_id,
-            'leech_from' => auth()->id(),
-            'expense_id' => $expense->id,
-            'amount'     => $owe_amount,
+          $expense = Expense::create([
+            'name' => $request->name,
+            'group_id' => $request->group_id,
+            'amount' => $request->amount
           ]);
+
+          Payment::insert([
+            'user_id'       => auth()->id(),
+            'payable_id'    => $expense->id,
+            'payable_type'  => 'App\Expense',
+            'amount'        => $request->amount,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+          ]);
+
+          foreach($request->user_id as $user_id) {
+            Leech::create([
+              'user_id'    => $user_id,
+              'leech_from' => auth()->id(),
+              'expense_id' => $expense->id,
+              'amount'     => $owe_amount,
+            ]);
+          }
+        } else {
+          $total_owe_amount = 0;
+
+          foreach($request->user_id as $user_id => $owe_amount) {
+            $total_owe_amount += (int)$owe_amount;
+          }
+
+          if((int)$request->amount < $total_owe_amount) {
+            return redirect()
+              ->back()
+              ->with('flash', 'The total of everyone\'s owed shares (' .$total_owe_amount.') is different than the total cost ('.$request->amount.')');
+          }
+
+          $expense = Expense::create([
+            'name' => $request->name,
+            'group_id' => $request->group_id,
+            'amount' => $request->amount
+          ]);
+
+          Payment::insert([
+            'user_id'       => auth()->id(),
+            'payable_id'    => $expense->id,
+            'payable_type'  => 'App\Expense',
+            'amount'        => $request->amount,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+          ]);
+
+          foreach($request->user_id as $user_id => $owe_amount) {
+            if($owe_amount != null) {
+              Leech::create([
+                'user_id'    => $user_id,
+                'leech_from' => auth()->id(),
+                'expense_id' => $expense->id,
+                'amount'     => $owe_amount,
+              ]);
+            }
+          }
         }
 
         return redirect()
