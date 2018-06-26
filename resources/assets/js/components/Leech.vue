@@ -2,7 +2,7 @@
   export default {
     data() {
       return {
-        equal: true,
+        split: "equal",
         total: 0,
         member: {
           partial: []
@@ -26,8 +26,8 @@
           this.left = this.total - partials;
       },
 
-      setEqual(val) {
-        this.equal = (parseInt(val) == 0 ? false : true);
+      setSplit(val) {
+        this.split = val;
         $(".selectpicker").selectpicker('deselectAll');
       }
     }

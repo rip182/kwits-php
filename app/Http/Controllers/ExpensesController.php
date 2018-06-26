@@ -9,6 +9,9 @@ use App\User;
 use App\Payment;
 use App\Leech;
 
+use App\Jobs\CreateEqualSplit;
+use App\Jobs\CreateUnequalSplit;
+
 class ExpensesController extends Controller
 {
     /**
@@ -47,78 +50,20 @@ class ExpensesController extends Controller
           'amount'  => 'required',
           'user_id' => 'required',
           'group_id' => 'required',
+          'split'    => 'required|in:' . implode(',', config('kwits.splits')),
         ]);
 
-        if($request->equal == 'true') {
-          $split = count($request->user_id) + 1;
-          $owe_amount = $request->amount / $split;
+        switch($request->split) {
+          case "equal":
+            $response = dispatch_now(new CreateEqualSplit($request->all()));
+          break;
 
-          $expense = Expense::create([
-            'name' => $request->name,
-            'group_id' => $request->group_id,
-            'amount' => $request->amount
-          ]);
-
-          Payment::insert([
-            'user_id'       => auth()->id(),
-            'payable_id'    => $expense->id,
-            'payable_type'  => 'App\Expense',
-            'amount'        => $request->amount,
-            'created_at'    => Carbon::now(),
-            'updated_at'    => Carbon::now(),
-          ]);
-
-          foreach($request->user_id as $user_id) {
-            Leech::create([
-              'user_id'    => $user_id,
-              'leech_from' => auth()->id(),
-              'expense_id' => $expense->id,
-              'amount'     => $owe_amount,
-            ]);
-          }
-        } else {
-          $total_owe_amount = 0;
-
-          foreach($request->user_id as $user_id => $owe_amount) {
-            $total_owe_amount += (int)$owe_amount;
-          }
-
-          if((int)$request->amount < $total_owe_amount) {
-            return redirect()
-              ->back()
-              ->with('flash', 'The total of everyone\'s owed shares (' .$total_owe_amount.') is different than the total cost ('.$request->amount.')');
-          }
-
-          $expense = Expense::create([
-            'name' => $request->name,
-            'group_id' => $request->group_id,
-            'amount' => $request->amount
-          ]);
-
-          Payment::insert([
-            'user_id'       => auth()->id(),
-            'payable_id'    => $expense->id,
-            'payable_type'  => 'App\Expense',
-            'amount'        => $request->amount,
-            'created_at'    => Carbon::now(),
-            'updated_at'    => Carbon::now(),
-          ]);
-
-          foreach($request->user_id as $user_id => $owe_amount) {
-            if($owe_amount != null) {
-              Leech::create([
-                'user_id'    => $user_id,
-                'leech_from' => auth()->id(),
-                'expense_id' => $expense->id,
-                'amount'     => $owe_amount,
-              ]);
-            }
-          }
+          case "unequal":
+            $response = dispatch_now(new CreateUnequalSplit($request->all()));
+          break;
         }
 
-        return redirect()
-          ->back()
-          ->with('flash', 'A new expense has been created.');
+        return $response;
     }
 
     /**

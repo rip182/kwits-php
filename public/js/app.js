@@ -43705,7 +43705,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      equal: true,
+      split: "equal",
       total: 0,
       member: {
         partial: []
@@ -43728,8 +43728,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       if (this.total > 0) this.left = this.total - partials;
     },
-    setEqual: function setEqual(val) {
-      this.equal = parseInt(val) == 0 ? false : true;
+    setSplit: function setSplit(val) {
+      this.split = val;
       $(".selectpicker").selectpicker('deselectAll');
     }
   }
