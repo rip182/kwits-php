@@ -45,14 +45,11 @@
                         <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
                           <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item {{ Request::is('groups') ? 'active' : '' }}">
-                          <a class="nav-link" href="/groups">Groups</a>
+                        <li class="nav-item {{ Request::is('travels') ? 'active' : '' }}">
+                          <a class="nav-link" href="/travels">Travels</a>
                         </li>
-                        <li class="nav-item {{ Request::is('friends/create') ? 'active' : '' }}">
-                          <a href="/friends/create" class="nav-link">Invite Friends</a>
-                        </li>
-                        <li class="nav-item {{ Request::is('lendings/create') ? 'active' : '' }}">
-                          <a href="/lendings/create" class="nav-link">Lend Money</a>
+                        <li class="nav-item {{ Request::is('buddies') ? 'active' : '' }}">
+                          <a href="/buddies" class="nav-link">Buddies</a>
                         </li>
                       @endguest
                     </ul>

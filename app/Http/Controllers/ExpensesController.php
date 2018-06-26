@@ -9,8 +9,8 @@ use App\User;
 use App\Payment;
 use App\Leech;
 
-use App\Jobs\CreateEqualSplit;
-use App\Jobs\CreateUnequalSplit;
+use App\Jobs\CreateSplit;
+use App\Jobs\GetSplitType;
 
 class ExpensesController extends Controller
 {
@@ -53,15 +53,7 @@ class ExpensesController extends Controller
           'split'    => 'required|in:' . implode(',', config('kwits.splits')),
         ]);
 
-        switch($request->split) {
-          case "equal":
-            $response = dispatch_now(new CreateEqualSplit($request->all()));
-          break;
-
-          case "unequal":
-            $response = dispatch_now(new CreateUnequalSplit($request->all()));
-          break;
-        }
+        $response = dispatch_now(new CreateSplit($request->all()));
 
         return $response;
     }

@@ -8,25 +8,26 @@ use App\Leech;
 
 use Carbon\Carbon;
 
-trait CreateSplit {
+trait Split {
 
   protected $data;
   protected $owe_amount;
   protected $expense;
+  protected $leechers;
 
-  private function createLeech()
+  protected function createLeechers()
   {
-    foreach($this->data['user_id'] as $user_id) {
-      Leech::create([
-        'user_id'    => $user_id,
-        'leech_from' => auth()->id(),
-        'expense_id' => $this->expense->id,
-        'amount'     => $this->owe_amount,
-      ]);
-    }
+      foreach($this->leechers as $leecher) {
+        Leech::create([
+          'user_id'    => $leecher['user_id'],
+          'leech_from' => auth()->id(),
+          'expense_id' => $this->expense->id,
+          'amount'     => $leecher['amount'],
+        ]);
+      }
   }
 
-  private function createPayment()
+  protected function createPayment()
   {
     Payment::insert([
       'user_id'       => auth()->id(),
@@ -40,7 +41,7 @@ trait CreateSplit {
     return $this;
   }
 
-  private function createExpense()
+  protected function createExpense()
   {
     $expense = Expense::create([
       'name' => $this->data['name'],

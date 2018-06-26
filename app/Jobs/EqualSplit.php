@@ -8,11 +8,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-use App\Traits\CreateSplit;
+use App\Traits\Split;
 
-class CreateEqualSplit implements ShouldQueue
+class EqualSplit implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CreateSplit;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Split;
 
     /**
      * Create a new job instance.
@@ -34,7 +34,8 @@ class CreateEqualSplit implements ShouldQueue
       $this->setOweAmount()
         ->createExpense()
         ->createPayment()
-        ->createLeech();
+        ->prepareLeechers()
+        ->createLeechers();
 
       return redirect()
         ->back()
@@ -45,9 +46,25 @@ class CreateEqualSplit implements ShouldQueue
     {
       $split = count($this->data['user_id']) + 1;
       $owe_amount = $this->data['amount'] / $split;
+
       $this->owe_amount = $owe_amount;
 
       return $this;
     }
 
+    protected function prepareLeechers()
+    {
+      $leechers = [];
+
+      foreach($this->data['user_id'] as $key => $value) {
+        $leechers[] = [
+          'user_id' => $value,
+          'amount'  => $this->owe_amount
+        ];
+      }
+
+      $this->leechers = $leechers;
+
+      return $this;
+    }
 }

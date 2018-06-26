@@ -8,13 +8,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-use App\Traits\CreateSplit;
-use App\Leech;
+use App\Traits\Split;
 
-
-class CreateUnequalSplit implements ShouldQueue
+class UnequalSplit implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CreateSplit;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Split;
 
     /**
      * Create a new job instance.
@@ -43,7 +41,8 @@ class CreateUnequalSplit implements ShouldQueue
 
       $this->createExpense()
         ->createPayment()
-        ->createLeech();
+        ->prepareLeechers()
+        ->createLeechers();
 
       return redirect()
         ->back()
@@ -52,24 +51,34 @@ class CreateUnequalSplit implements ShouldQueue
 
     private function setOweAmount()
     {
-      foreach($this->data['user_id'] as $user_id => $owe_amount) {
-        $this->owe_amount += (int)$owe_amount;
+      $owe_amount = 0;
+
+      foreach($this->data['user_id'] as $user_id => $amount) {
+
+        $owe_amount += (int)$amount;
+
       }
+
+      $this->owe_amount = $owe_amount;
 
       return $this;
     }
 
-    private function createLeech()
+    protected function prepareLeechers()
     {
-      foreach($this->data['user_id'] as $user_id => $owe_amount) {
-        if($owe_amount != null) {
-          Leech::create([
-            'user_id'    => $user_id,
-            'leech_from' => auth()->id(),
-            'expense_id' => $this->expense->id,
-            'amount'     => $owe_amount,
-          ]);
+      $leechers = [];
+
+      foreach($this->data['user_id'] as $key => $value) {
+        if($value != null) {
+          $leechers[] = [
+            'user_id' => $key,
+            'amount'  => $value
+          ];
         }
       }
+
+      $this->leechers = $leechers;
+
+      return $this;
     }
 }
