@@ -13,14 +13,14 @@ class Member extends Model
    * @var array
    */
   protected $fillable = [
-      'user_id', 'group_id',
+      'user_id', 'travel_id',
   ];
 
   public function user() {
     return $this->belongsTo('App\User');
   }
 
-  public function group() {
-    return $this->belongsTo('App\Group');
+  public function travel() {
+    return $this->belongsTo('App\Travel');
   }
 }

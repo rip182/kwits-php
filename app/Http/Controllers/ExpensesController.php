@@ -49,7 +49,7 @@ class ExpensesController extends Controller
         $this->validate($request, [
           'amount'  => 'required',
           'user_id' => 'required',
-          'group_id' => 'required',
+          'travel_id' => 'required',
           'split'    => 'required|in:' . implode(',', config('kwits.splits')),
         ]);
 

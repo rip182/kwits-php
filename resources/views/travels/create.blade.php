@@ -9,10 +9,10 @@
 <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <form action="/groups" method="POST">
+        <form action="/travels" method="POST">
           {{ csrf_field() }}
           <div class="form-group">
-            <input name="name" type="text" class="form-control" placeholder="Group Name">
+            <input name="name" type="text" class="form-control" placeholder="Travel Name">
           </div>
           <div class="form-group">
             <select id="members" name="user_id[]" class="form-control selectpicker" data-actionsBox="true" data-live-search="true" multiple data-selected-text-format="count > 3">

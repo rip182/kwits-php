@@ -6,7 +6,7 @@ use Closure;
 
 use App\Group;
 
-class RedirectIfGroupHasNoMembers
+class RedirectIfTravelGroupHasNoMembers
 {
     /**
      * Handle an incoming request.

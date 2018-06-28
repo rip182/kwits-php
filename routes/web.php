@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', [
   'uses' => 'HomeController@index',
-  'middleware' => ['loggedIn', 'hasGroup'],
+  'middleware' => ['loggedIn', 'hasTravelGroup'],
 ])->name('home');
 Route::get('/profile', 'ProfileController@myProfile');
 Route::get('/friends/{friend}/activities', 'ActivitiesController@show');
@@ -29,19 +29,19 @@ Route::resource('friends', 'FriendsController');
 Route::resource('expenses', 'ExpensesController');
 Route::resource('payments', 'PaymentsController');
 Route::resource('lendings', 'LendingsController');
-Route::post('/groups', [
-  'uses' => 'GroupsController@store',
+Route::post('/travels', [
+  'uses' => 'TravelsController@store',
   'middleware' => ['loggedIn']
 ]);
-Route::get('/groups', [
-  'uses' => 'GroupsController@index',
-  'middleware' => ['loggedIn', 'hasGroup']
+Route::get('/travels', [
+  'uses' => 'TravelsController@index',
+  'middleware' => ['loggedIn', 'hasTravelGroup']
 ]);
-Route::get('/groups/create', [
-  'uses' => 'GroupsController@create',
+Route::get('/travels/create', [
+  'uses' => 'TravelsController@create',
   'middleware' => ['loggedIn']
 ]);
-Route::get('/groups/{id}', [
-  'uses' => 'GroupsController@show',
-  'middleware' => ['loggedIn', 'isMemberToGroup', 'hasMembers']
+Route::get('/travels/{id}', [
+  'uses' => 'TravelsController@show',
+  'middleware' => ['loggedIn', 'isMemberToTravelGroup', 'hasMembers']
 ]);

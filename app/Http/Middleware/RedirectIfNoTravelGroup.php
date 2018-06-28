@@ -5,9 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 
 use App\Member;
-use App\Group;
+use App\Travel;
 
-class RedirectIfNoGroup
+class RedirectIfNoTravelGroup
 {
     /**
      * Handle an incoming request.
@@ -20,25 +20,25 @@ class RedirectIfNoGroup
     {
         $user = $request->get('user');
 
-        $group_ids = [];
+        $travel_ids = [];
 
         $members = Member::where('user_id', $user->id)->get();
 
         foreach($members as $member) {
 
-          $group_ids[] = $member->group_id;
+          $travel_ids[] = $member->travel_id;
 
         }
 
-        if($group_ids) {
+        if($travel_ids) {
 
-          $groups = Group::whereIn('id', $group_ids)->orderBy('created_at', 'DESC')->get();
+          $travels = Travel::whereIn('id', $travel_ids)->orderBy('created_at', 'DESC')->get();
 
-          $request->attributes->add(['groups' => $groups]);
+          $request->attributes->add(['travels' => $travels]);
 
           return $next($request);
         }
 
-        return redirect('groups/create');
+        return redirect('travels/create');
     }
 }

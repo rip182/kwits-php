@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-use App\Group;
+use App\Travel;
 
-class RedirectIfUserNotMemberToGroup
+class RedirectIfUserNotMemberToTravelGroup
 {
     /**
      * Handle an incoming request.
@@ -18,13 +18,13 @@ class RedirectIfUserNotMemberToGroup
     public function handle($request, Closure $next)
     {
         $user = $request->get('user');
-        $group = Group::find($request->id);
+        $travel = Travel::find($request->id);
 
-        if($group) {
-          $request->attributes->add(['group' => $group]);
+        if($travel) {
+          $request->attributes->add(['travel' => $travel]);
 
-          $members = $group->members;
-          $request->attributes->add(['members' => $group->members()->where('user_id', '!=', $user->id)->get()]);
+          $members = $travel->members;
+          $request->attributes->add(['members' => $travel->members()->where('user_id', '!=', $user->id)->get()]);
 
           foreach($members as $member) {
             if($member->user_id == $user->id)

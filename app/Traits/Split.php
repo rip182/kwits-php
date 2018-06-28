@@ -45,7 +45,7 @@ trait Split {
   {
     $expense = Expense::create([
       'name' => $this->data['name'],
-      'group_id' => $this->data['group_id'],
+      'travel_id' => $this->data['travel_id'],
       'amount' => $this->data['amount']
     ]);
 

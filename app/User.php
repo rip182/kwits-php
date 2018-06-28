@@ -62,8 +62,8 @@ class User extends Authenticatable
       return $this->hasMany('App\Payment', 'user_id');
     }
 
-    public function groups() {
-      return $this->hasMany('App\Group', 'user_id');
+    public function travels() {
+      return $this->hasMany('App\Travel', 'user_id');
     }
 
     public function lendings($id = null) {
@@ -73,7 +73,7 @@ class User extends Authenticatable
       return $this->hasMany('App\Lending', 'user_id')->where('recipient_id', $id)->get();
     }
 
-    public function groupObligations($id, $expense_ids)
+    public function travelObligations($id, $expense_ids)
     {
       return $this->leeches()->where('leech_from', $id)->whereIn('expense_id', $expense_ids)->get();
     }
@@ -89,14 +89,14 @@ class User extends Authenticatable
       if($id == null)
         return $this->payments()->where('payable_type', 'App\User')->get();
 
-      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('group_id')->get();
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('travel_id')->get();
     }
 
-    public function groupSeeds($id = null, $group_id) {
+    public function travelSeeds($id = null, $travel_id) {
       if($id == null)
         return $this->payments()->where('payable_type', 'App\User')->get();
 
-      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('group_id', $group_id)->get();
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('travel_id', $travel_id)->get();
     }
 
     public function seeds($id = null) {
@@ -107,11 +107,11 @@ class User extends Authenticatable
     }
 
     public function otherContributions($id) {
-      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('group_id')->get();
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->whereNull('travel_id')->get();
     }
 
-    public function groupContributions($id, $group_id) {
-      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('group_id', $group_id)->get();
+    public function travelContributions($id, $travel_id) {
+      return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->where('travel_id', $travel_id)->get();
     }
 
     //User methods
@@ -119,7 +119,7 @@ class User extends Authenticatable
       return $this->payments()->where('payable_id', $id)->where('payable_type', 'App\User')->get();
     }
 
-    public function groupDebts($id, $expense_ids)
+    public function travelDebts($id, $expense_ids)
     {
       return $this->leeches()->where('leech_from', $id)->whereIn('expense_id', $expense_ids)->get();
     }

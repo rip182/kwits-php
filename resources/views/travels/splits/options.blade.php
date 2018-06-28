@@ -2,7 +2,7 @@
   <div class="leech">
     <form action="/expenses" method="POST">
       {{ csrf_field() }}
-      <input type="hidden" name="group_id" value="{!! $group->id !!}">
+      <input type="hidden" name="travel_id" value="{!! $travel->id !!}">
       <input type="hidden" name="split" :value="split">
       <div class="form-group">
         <input v-on:input="setLimit" v-model="total" name="amount" type="number" id="total-amount" class="form-control" placeholder="0.00" autofocus>

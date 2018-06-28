@@ -13,7 +13,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                   <h4 style="float:left;">
-                    {!! $group->name !!}
+                    {!! $travel->name !!}
                   </h4>
                   <span style="float:right;">
                     Total Expenses:
@@ -31,7 +31,7 @@
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
           <div class="panel-body">
-            @include("groups.splits.options", ["members" => $members])
+            @include("travels.splits.options", ["members" => $members])
           </div>
         </div>
       </div>

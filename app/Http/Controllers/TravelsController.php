@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-use App\Group;
+use App\Travel;
 use App\Member;
 use App\Payment;
 
-class GroupsController extends Controller
+class TravelsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,11 +20,11 @@ class GroupsController extends Controller
     {
         $user = $this->request->get('user');
 
-        $groups = $this->request->get('groups');
+        $travels = $this->request->get('travels');
 
         $friend_requests = $user->getFriendRequests();
 
-        return view('groups.index', compact('groups', 'friend_requests'));
+        return view('travels.index', compact('travels', 'friend_requests'));
     }
 
     /**
@@ -40,7 +40,7 @@ class GroupsController extends Controller
 
       $friend_requests = $user->getFriendRequests();
 
-      return view('groups.create', compact('friends', 'friend_requests'));
+      return view('travels.create', compact('friends', 'friend_requests'));
     }
 
     /**
@@ -56,14 +56,14 @@ class GroupsController extends Controller
         'user_id' => 'required',
       ]);
 
-      $group = Group::create([
+      $travel = Travel::create([
         'name' => $request->name,
         'user_id' => auth()->id(),
       ]);
 
       Member::insert([
         'user_id'       => auth()->id(),
-        'group_id'      => $group->id,
+        'travel_id'      => $travel->id,
         'created_at'    => Carbon::now(),
         'updated_at'    => Carbon::now(),
       ]);
@@ -71,7 +71,7 @@ class GroupsController extends Controller
       foreach($request->user_id as $user_id) {
         Member::create([
           'user_id'       => $user_id,
-          'group_id'      => $group->id,
+          'travel_id'      => $travel->id,
           'created_at'    => Carbon::now(),
           'updated_at'    => Carbon::now(),
         ]);
@@ -79,7 +79,7 @@ class GroupsController extends Controller
 
       return redirect()
         ->back()
-        ->with('flash', 'A new group has been created.');
+        ->with('flash', 'A new travel has been created.');
 
     }
 
@@ -93,13 +93,13 @@ class GroupsController extends Controller
     {
       $user = $this->request->get('user');
 
-      $group = $this->request->get('group');
+      $travel = $this->request->get('travel');
 
       $members = $this->request->get('members');
 
-      $expense_ids       = $group->expenses()->pluck('expenses.id')->toArray();
+      $expense_ids       = $travel->expenses()->pluck('expenses.id')->toArray();
 
-      $total_expenses    = $group->expenses()->sum('amount');
+      $total_expenses    = $travel->expenses()->sum('amount');
 
       $payments = Payment::whereIn('payable_id', $expense_ids)
         ->latest()
@@ -113,7 +113,7 @@ class GroupsController extends Controller
 
       $friend_requests = $user->getFriendRequests();
 
-      return view('groups.show', compact('group', 'friend_requests', 'members', 'payments', 'total_expenses'));
+      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses'));
     }
 
     /**

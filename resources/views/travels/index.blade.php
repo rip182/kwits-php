@@ -2,42 +2,18 @@
 
 @section('content')
 <div class="container">
-
-    {{-- <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                  <span>
-                    {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
-                    <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
-                      <strong>Php {{ number_format(abs($total_owes), 2)  }}</strong>
-                    </span>
-                  </span>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    @foreach($groups as $group)
+    @foreach($travels as $travel)
       <div class="row">
           <div class="col-md-8 col-md-offset-2">
               <div class="panel panel-default">
-                  <div class="panel-heading"><a href="/groups/{{ $group->id }}">{{ $group->name }}</a></div>
+                  <div class="panel-heading"><a href="/travels/{{ $travel->id }}">{{ $travel->name }}</a></div>
 
                   <div class="panel-body">
                     @if(1 >= 0)
                       <small>Published</small>
                       <span style="color:green;">
-                        <strong><small> {{ $group->created_at->diffForHumans() }}</small></strong>
+                        <strong><small> {{ $travel->created_at->diffForHumans() }}</small></strong>
                       </span>
-                    @else
-                      {{-- You owe
-                      <span style="color:#bf5329;">
-                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
-                      </span>
-                      <span style="float:right;">
-                        <button type="button" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="btn btn-primary btn-sm">Settle</button>
-                      </span> --}}
                     @endif
                   </div>
               </div>

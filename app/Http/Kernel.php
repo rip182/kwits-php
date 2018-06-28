@@ -57,10 +57,10 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'hasGroup' => \App\Http\Middleware\RedirectIfNoGroup::class,
+        'hasTravelGroup' => \App\Http\Middleware\RedirectIfNoTravelGroup::class,
         'loggedIn' => \App\Http\Middleware\RedirectIfNotLoggedIn::class,
-        'hasMembers' => \App\Http\Middleware\RedirectIfGroupHasNoMembers::class,
-        'isMemberToGroup' => \App\Http\Middleware\RedirectIfUserNotMemberToGroup::class,
+        'hasMembers' => \App\Http\Middleware\RedirectIfTravelGroupHasNoMembers::class,
+        'isMemberToTravelGroup' => \App\Http\Middleware\RedirectIfUserNotMemberToTravelGroup::class,
         'hasRecentActivity' => \App\Http\Middleware\RedirectIfHasRecentActivity::class,
     ];
 }
