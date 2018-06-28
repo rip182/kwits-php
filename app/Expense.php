@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Overtrue\LaravelFollow\Traits\CanBeLiked;
+
 class Expense extends Model
 {
 
-  use RecordsActivity;
+  use RecordsActivity, CanBeLiked;
 
   /**
    * The attributes that are mass assignable.

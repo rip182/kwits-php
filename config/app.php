@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Hootlex\Friendships\FriendshipsServiceProvider::class,
+        Overtrue\LaravelFollow\FollowServiceProvider::class,
     ],
 
     /*

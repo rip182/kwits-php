@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "196e1450aa22d06108fb6f5269e00844",
-    "content-hash": "7e03446c4b930de52a909ea0debd48ff",
+    "hash": "de3831b222bda202ef73f9add745b5de",
+    "content-hash": "70a42442b6e2f2fb969a72af1d8e345d",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1832,6 +1832,54 @@
                 "php"
             ],
             "time": "2018-06-03 11:33:10"
+        },
+        {
+            "name": "overtrue/laravel-follow",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-follow.git",
+                "reference": "cf76116eb4a5b527f3f32e8627b0e7925730fa2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-follow/zipball/cf76116eb4a5b527f3f32e8627b0e7925730fa2e",
+                "reference": "cf76116eb4a5b527f3f32e8627b0e7925730fa2e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "laravel/laravel": "5.*",
+                "mockery/mockery": "1.0.x-dev",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelFollow\\FollowServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelFollow\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "Laravel 5 User Based System",
+            "time": "2018-05-23 02:12:09"
         },
         {
             "name": "paragonie/random_compat",
