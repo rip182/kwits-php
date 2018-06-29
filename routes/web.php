@@ -21,6 +21,10 @@ Route::get('/home', [
   'uses' => 'HomeController@index',
   'middleware' => ['loggedIn', 'hasTravelGroup'],
 ])->name('home');
+Route::get('/dashboard', [
+  'uses' => 'DashboardController@index',
+  'middleware' => ['loggedIn', 'hasTravelGroup'],
+])->name('dashboard');
 Route::get('/profile', 'ProfileController@myProfile');
 Route::get('/friends/{friend}/activities', 'ActivitiesController@show');
 Route::get('/friend-requests', 'FriendsController@friendRequests');
