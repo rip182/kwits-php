@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Leech;
 use App\Lending;
+use App\Payment;
 
 class HomeController extends Controller
 {
@@ -19,44 +20,26 @@ class HomeController extends Controller
     {
         $user = User::find(Auth::id());
 
-        $users  = $user->getFriends();
+        $friend_ids  = $user->getFriends()->pluck('id')->all();
 
-        $total_owes = 0;
+        $payments = Payment::whereIn('user_id', $friend_ids)
+          ->where('payable_type', 'App\Expense')
+          ->orderBy('created_at', 'DESC')
+          ->get();
 
-        $friends = collect($users)->map(function ($friend) use ($user, &$total_owes) {
-            //@NOTE: codes below are reused in FriendsController
-            $obligations        = $friend->obligations($user->id)->sum('amount');
-
-            $user_contributions = $user->contributions($friend->id)->sum('amount');
-
-            $friend_seeds       = $friend->seeds($user->id)->sum('amount');
-
-            $user_debts         = $user->debts($friend->id)->sum('amount');
-
-            $friend_lendings    = $friend->lendings($user->id)->sum('amount');
-
-            $user_lendings      = $user->lendings($friend->id)->sum('amount');
-
-            $owes               = ($user_lendings + $obligations + $user_contributions) - ($friend_seeds + $user_debts + $friend_lendings);
-
-            $total_owes         += $owes;
-
-            return [
-
-              'id'              => $friend->id,
-
-              'name'            => $friend->name,
-
-              'owes'            => $owes,
-
-              'path'            => "/friends/" . $friend->id,
-
-            ];
-
+        $feeds = collect($payments)->map(function ($payment) {
+          return [
+            'expense' => $payment->payable,
+            'paid_by'    => $payment->user,
+            'split_count' => $payment->payable->leechers()->count() + 1,
+            'comments' => [],
+            'comments_count' => '',
+            'feed_likes_count' => '',
+          ];
         });
 
         $friend_requests = $user->getFriendRequests();
 
-        return view('home', compact('friends', 'user', 'total_owes', 'friend_requests'));
+        return view('home', compact('feeds', 'user', 'friend_requests'));
     }
 }
