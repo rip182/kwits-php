@@ -3,10 +3,23 @@
 @section('styles')
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <style media="screen">
+    .members {
+      font-size: 24px !important;
+      padding-top: 0 !important;
+      border: none !important;
+      border-bottom: 1px solid #000000 !important;
+      height: 50px !important;
+      border-radius: 0px !important;
+      background-color: white;
+    }
+  </style>
 @endsection
 
 @section('content')
   <div class="col-md-9 col-md-pull-3">
+    {{-- @include("travels.splits.options", ["members" => $members]) --}}
+
     <div class="projects">
       <div class="project" style="margin-left: 6px; width: 578px;">
         <div class="detail-content">
