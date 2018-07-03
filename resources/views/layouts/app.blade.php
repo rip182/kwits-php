@@ -117,22 +117,20 @@
     										<i class="fa fa-instagram"></i>
     									</a>
     									<a href="#" title="Search this site">
-    										<i class="fa fa-search"></i>
+    										<i class="fa fa-plus"></i>
     									</a>
     								</div>
-    								<div class="box-search">
-    									<div class="table">
-    										<div class="table-cell">
-    											<div class="container">
-    												<form class="search-form" action="#" method="get">
-    													<input type="search" name="s" class="search-field" placeholder="Type &amp; hit enter" value="" title="Search">
-    													<div class="kd-close">
-    													</div>
-    												</form>
-    											</div>
-    										</div>
-    									</div>
-    								</div>
+                    @if(isset($members))
+                    <div class="box-search">
+                      <div class="table">
+                        <div class="table-cell">
+                          <div class="container">
+                            @include("travels.splits.options", ["members" => $members])
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
     								<!-- End Socials -->
 
     								<div class="copyright">

@@ -64,7 +64,7 @@
 	$(document).ready(function () {
 
 		var $header = $('.header'),
-			$search = $('.fa-search', $header);
+			$search = $('.fa-plus', $header);
 
 		// 1. Search Popup
 		if ($search.length) {
