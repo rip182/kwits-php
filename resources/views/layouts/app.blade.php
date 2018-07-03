@@ -75,24 +75,24 @@
     								<div class="main-menu">
     									<nav>
     										<ul class="menu-list">
-    											<li class="active menu-item-has-children">
-    												<a href="index-2.html">Home</a>
+    											<li class="{{ Request::is('home') ? 'active' : '' }} menu-item-has-children">
+    												<a href="/home">Home</a>
     											</li>
-    											<li>
-    												<a href="#">Dashboard</a>
+    											<li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+    												<a href="/dashboard">Dashboard</a>
     											</li>
-    											<li>
-    												<a href="#">Travels</a>
+    											<li class="{{ Request::is('travels') ? 'active' : '' }}">
+    												<a href="/travels">Travels</a>
     											</li>
                           <li>
                             <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                               onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                               Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                           </li>
     										</ul>
     									</nav>
