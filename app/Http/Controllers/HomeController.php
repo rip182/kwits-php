@@ -27,7 +27,7 @@ class HomeController extends Controller
           ->orderBy('created_at', 'DESC')
           ->get();
 
-        $feeds = collect($payments)->map(function ($payment) {
+        $feed = collect($payments)->map(function ($payment) {
           return [
             'expense' => $payment->payable,
             'paid_by'    => $payment->user,
@@ -40,6 +40,6 @@ class HomeController extends Controller
 
         $friend_requests = $user->getFriendRequests();
 
-        return view('home', compact('feeds', 'user', 'friend_requests'));
+        return view('home', compact('feed', 'user', 'friend_requests'));
     }
 }

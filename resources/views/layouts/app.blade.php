@@ -4,102 +4,162 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,600,700%7CLato:400,700' type='text/css' media='all' />
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Kwits') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/justifiedGallery.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/magnific-popup.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
     @yield('styles')
     <style media="screen">
       [v-cloak] { display: none; }
     </style>
 </head>
-<body>
+<body class="home menu-left">
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+        <!-- Preload -->
+    		<div id="preload">
+    			<div class="kd-bounce">
+    				<div></div>
+    				<div></div>
+    			</div>
+    		</div>
+    		<!-- Preload -->
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+        <!-- Mobile Menu -->
+    		<div class="mobile">
+    			<div class="container">
+    				<!-- Mobile -->
+    				<div class="menu-mobile">
+    					<span class="item item-1"></span>
+    					<span class="item item-2"></span>
+    					<span class="item item-3"></span>
+    				</div>
+    				<!-- End Mobile -->
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
+    				<!-- Logo -->
+    				<div class="logo">
+    					<a href="index-2.html">Kwits</a>
+    				</div>
+    				<!-- End Logo -->
+    			</div>
+    		</div>
+    		<div class="hide-menu"></div>
+    		<!-- End Mobile Menu -->
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                      @guest
-                      @else
-                        <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
-                          <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item {{ Request::is('dashboard') ? 'active' : '' }}">
-                          <a href="/dashboard" class="nav-link">Dashboard</a>
-                        </li>
-                        <li class="nav-item {{ Request::is('travels') ? 'active' : '' }}">
-                          <a class="nav-link" href="/travels">Travels</a>
-                        </li>
-                      @endguest
-                    </ul>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-md-push-9">
+    					<div class="header affix">
+    						<div class="table">
+    							<div class="table-cell">
+    								<!-- Logo -->
+    								<div class="logo">
+    									<a href="index-2.html">Kwits</a>
+    								</div>
+    								<!-- End Logo -->
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="badge">@if($friend_requests->count()) {{$friend_requests->count() }} @endif</span> <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a href="/profile">My Profile</a>
-                                  </li>
-                                    @if($friend_requests->count())
-                                      <li>
-                                        <a href="/friend-requests">Friend requests <span class="badge">{{$friend_requests->count() }}</span></a>
-                                      </li>
-                                    @endif
-                                    <li>
-                                        <a href="{{ route('logout') }}"
+    								<!-- Navigation -->
+    								<div class="main-menu">
+    									<nav>
+    										<ul class="menu-list">
+    											<li class="active menu-item-has-children">
+    												<a href="index-2.html">Home</a>
+    											</li>
+    											<li>
+    												<a href="#">Dashboard</a>
+    											</li>
+    											<li>
+    												<a href="#">Travels</a>
+    											</li>
+                          <li>
+                            <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                          </li>
+    										</ul>
+    									</nav>
+    								</div>
+    								<!-- End Navigation -->
 
-        @yield('content')
+    								<!-- Socials -->
+    								<div class="socials">
+    									<a href="#" title="Behance">
+    										<i class="fa fa-behance"></i>
+    									</a>
+    									<a href="#" title="Dribbble">
+    										<i class="fa fa-dribbble"></i>
+    									</a>
+    									<a href="#" title="Facebook">
+    										<i class="fa fa-facebook"></i>
+    									</a>
+    									<a href="#" title="Google Plus">
+    										<i class="fa fa-google-plus"></i>
+    									</a>
+    									<a href="#" title="Instagram">
+    										<i class="fa fa-instagram"></i>
+    									</a>
+    									<a href="#" title="Search this site">
+    										<i class="fa fa-search"></i>
+    									</a>
+    								</div>
+    								<div class="box-search">
+    									<div class="table">
+    										<div class="table-cell">
+    											<div class="container">
+    												<form class="search-form" action="#" method="get">
+    													<input type="search" name="s" class="search-field" placeholder="Type &amp; hit enter" value="" title="Search">
+    													<div class="kd-close">
+    													</div>
+    												</form>
+    											</div>
+    										</div>
+    									</div>
+    								</div>
+    								<!-- End Socials -->
+
+    								<div class="copyright">
+    									<p>
+    										Kwits @ 2018. Design by Kwits
+    									</p>
+    								</div>
+
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+            @yield('content')
+          </div>
+        </div>
+
+
 
         <flash message="{!! session('flash') !!}"></flash>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/libs/jquery-1.12.4.min.js') }}"></script>
+	  <script src="{{ asset('js/libs/jquery.justifiedGallery.min.js') }}"></script>
+	  <script src="{{ asset('js/libs/jquery.magnific-popup.js') }}"></script>
+	  <script src="{{ asset('js/scripts.js') }}"></script>
     @yield('scripts')
 </body>
 </html>
