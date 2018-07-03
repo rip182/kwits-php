@@ -6,58 +6,71 @@
 @endsection
 
 @section('content')
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                  <h4 style="float:left;">
-                    {!! $travel->name !!}
-                  </h4>
-                  <span style="float:right;">
-                    Total Expenses:
-                    <span style="color:green;">
-                      <strong>Php {{ number_format(abs($total_expenses), 2)  }}</strong>
-                    </span>
-                  </span>
-                </div>
+  <div class="col-md-9 col-md-pull-3">
+    <div class="projects">
+      <div class="project" style="margin-left: 6px; width: 578px;">
+        <div class="detail-content">
+          <h2 class="title">
+            {!! $travel->name !!}
+          </h2>
+          <div class="project-attributes">
+            <table>
+              <tbody>
+                <tr>
+                  <tr>
+                    <td class="name">Year</td>
+                    <td class="value">{{ date("m/Y", strtotime($travel->created_at)) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="name">Location</td>
+                    <td class="value">Siargao, Philippines</td>
+                  </tr>
+                  <tr>
+                    <td class="name">Travel Buddies</td>
+                    <td class="value">
+                      {{ rtrim($travel_buddies, ', ') }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="name">Total Expenses</td>
+                    <td class="value">P {{ number_format(abs($total_expenses), 2)  }}</td>
+                  </tr>
+                  <tr>
+                    <td class="name">Share</td>
+                    <td class="value">
+                      <div class="socials">
+                        <div class="kd-sharing-post-social">
+                          <a href="#"><i class="fa fa-facebook"></i></a>
+                          <a href="#"><i class="fa fa-twitter"></i></a>
+                          <a href="#"><i class="fa fa-instagram"></i></a>
+                          <a href="#"><i class="fa fa-google-plus"></i></a>
+                          <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-        </div>
-    </div>
-
-    {{-- @TODO - christian find a way to hide this form on initial load, and only display this via a modal when a button is clicked.  --}}
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            @include("travels.splits.options", ["members" => $members])
           </div>
         </div>
+      <div class="tiled-gallery">
+        @foreach($payments as $date => $payment)
+          @foreach($payment as $activity)
+            <div class="project-item">
+              <a href="single-project.html">
+                <img src="{{ asset('images') }}/projects/{{ rand(1, 21)}}.jpg" alt="">
+              </a>
+              <h2 class="title">
+                <a href="#">P {{ number_format($activity->amount, 2) }} - {{ $activity->payable->name }}</a>
+              </h2>
+            </div>
+          @endforeach
+        @endforeach
       </div>
     </div>
+  </div>
 
-    @foreach($payments as $date => $payment)
-      <div class="col-md-8 col-md-offset-2">
-        <h3 class="page-header">{{ ($date == date("Y-m-d") ? "Today" : date("M d, Y", strtotime($date))) }}</h3>
-      </div>
-      @foreach($payment as $activity)
-      <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-              <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h5>
-                          <small class="text-muted">{{ ($activity->user_id == Auth::user()->id ? "You" : $activity->user->name) }} paid for <strong>{{ $activity->payable->name }}</strong> expenses</small>
-                          <a href="/expenses/{{ $activity->payable->id }}"><small class="text-muted">{{ $activity->created_at->diffForHumans()  }}</small></a>
-                          <span style="float:right;">Php {{ number_format($activity->amount, 2) }}</span>
-                        </h5>
-                    </div>
-              </div>
-          </div>
-      </div>
-    @endforeach
-  @endforeach
-</div>
 @endsection
 
 @section('scripts')

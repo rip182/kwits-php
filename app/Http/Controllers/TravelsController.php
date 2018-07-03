@@ -95,7 +95,15 @@ class TravelsController extends Controller
 
       $travel = $this->request->get('travel');
 
+      $travel_buddies = $travel->user->name . ", ";
+
       $members = $this->request->get('members');
+
+      foreach($members as $member) {
+
+        $travel_buddies .= $member->user->name . ", ";
+
+      }
 
       $expense_ids       = $travel->expenses()->pluck('expenses.id')->toArray();
 
@@ -113,7 +121,7 @@ class TravelsController extends Controller
 
       $friend_requests = $user->getFriendRequests();
 
-      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses'));
+      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses', 'travel_buddies'));
     }
 
     /**
