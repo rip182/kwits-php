@@ -75,24 +75,24 @@
     								<div class="main-menu">
     									<nav>
     										<ul class="menu-list">
-    											<li class="active menu-item-has-children">
-    												<a href="index-2.html">Home</a>
+    											<li class="{{ Request::is('home') ? 'active' : '' }} menu-item-has-children">
+    												<a href="/home">Home</a>
     											</li>
-    											<li>
-    												<a href="#">Dashboard</a>
+    											<li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+    												<a href="/dashboard">Dashboard</a>
     											</li>
-    											<li>
-    												<a href="#">Travels</a>
+    											<li class="{{ Request::is('travels') ? 'active' : '' }}">
+    												<a href="/travels">Travels</a>
     											</li>
                           <li>
                             <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                               onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                               Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                           </li>
     										</ul>
     									</nav>
@@ -117,22 +117,20 @@
     										<i class="fa fa-instagram"></i>
     									</a>
     									<a href="#" title="Search this site">
-    										<i class="fa fa-search"></i>
+    										<i class="fa fa-plus"></i>
     									</a>
     								</div>
-    								<div class="box-search">
-    									<div class="table">
-    										<div class="table-cell">
-    											<div class="container">
-    												<form class="search-form" action="#" method="get">
-    													<input type="search" name="s" class="search-field" placeholder="Type &amp; hit enter" value="" title="Search">
-    													<div class="kd-close">
-    													</div>
-    												</form>
-    											</div>
-    										</div>
-    									</div>
-    								</div>
+                    @if(isset($members))
+                    <div class="box-search">
+                      <div class="table">
+                        <div class="table-cell">
+                          <div class="container">
+                            @include("travels.splits.options", ["members" => $members])
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
     								<!-- End Socials -->
 
     								<div class="copyright">

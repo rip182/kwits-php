@@ -590,7 +590,7 @@ body {
   margin-right: 8px;
   font-size: 14px;
 }
-.socials .fa-search {
+.socials .fa-plus {
   color: #000000;
 }
 .box-search {
@@ -1160,7 +1160,7 @@ body {
   .socials a {
     margin-right: 10px;
   }
-  .socials .fa-search {
+  .socials .fa-plus {
     color: #ffffff;
   }
   .hide-menu.active {
