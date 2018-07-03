@@ -21,6 +21,7 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
 
         $friend_ids  = $user->getFriends()->pluck('id')->all();
+        $friend_ids[] = $user->id;
 
         $payments = Payment::whereIn('user_id', $friend_ids)
           ->where('payable_type', 'App\Expense')
