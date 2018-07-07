@@ -19,9 +19,7 @@ class RedirectIfNotLoggedIn
      */
     public function handle($request, Closure $next)
     {
-        $user = Cache::rememberForever('user', function() {
-          return User::find(Auth::id());
-        });
+        $user =  User::find(Auth::id());
 
         if($user) {
 

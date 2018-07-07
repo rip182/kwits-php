@@ -22,20 +22,16 @@ class HomeController extends Controller
     {
         $user = $this->request->get('user');
 
-        $friend_ids  = Cache::remember('friend_ids', 10, function() use ($user) {
-          return $user->getFriends()->pluck('id')->all();
-        });
+        $friend_ids = $user->getFriends()->pluck('id')->all();
 
         $friend_ids[] = $user->id;
 
-        $payments = Cache::remember('payments', 10, function() use($friend_ids){
-          return Payment::whereIn('user_id', $friend_ids)
+        $payments = Payment::whereIn('user_id', $friend_ids)
             ->where('payable_type', 'App\Expense')
             ->orderBy('created_at', 'DESC')
             ->get();
-        });
 
-        $feed = Cache::remember('feed', 10, function() use ($payments) {
+        $feed = Cache::remember('feed-'.$user->id, 10, function() use ($payments) {
           return collect($payments)->map(function ($payment) {
             return [
               'expense' => $payment->payable,
@@ -48,7 +44,7 @@ class HomeController extends Controller
           });
         });
 
-        $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+        $friend_requests = Cache::remember('friend_requests-'.$user->id, 10, function() use ($user) {
           $user->getFriendRequests();
         });
 

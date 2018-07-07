@@ -34,7 +34,7 @@ class TravelsController extends Controller
           ];
         }
 
-        $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+        $friend_requests = Cache::remember('friend_requests-'.$user->id, 10, function() use ($user) {
           $user->getFriendRequests();
         });
 
@@ -52,7 +52,7 @@ class TravelsController extends Controller
 
       $friends = $user->getFriends();
 
-      $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+      $friend_requests = Cache::remember('friend_requests-'.$user->id, 10, function() use ($user) {
         $user->getFriendRequests();
       });
 
@@ -151,7 +151,7 @@ class TravelsController extends Controller
             return $payment->created_at->format("Y-m-d");
           });
 
-      $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+      $friend_requests = Cache::remember('friend_requests-'.$user->id, 10, function() use ($user) {
         $user->getFriendRequests();
       });
 
