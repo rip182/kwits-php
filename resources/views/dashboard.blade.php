@@ -1,50 +1,65 @@
 @extends('layouts.app')
+@section('styles')
+<style media="screen">
+  .panel-default>.panel-heading {
+    background-color: transparent !important;
+  }
+  .panel-default {
+    border-color: transparent !important;
+  }
 
+  #comments {
+    border-top: 0px !important;
+  }
+</style>
+@endsection
 @section('content')
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                  <span>
-                    {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
-                    <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
-                      <strong>Php {{ number_format(abs($total_owes), 2)  }}</strong>
-                    </span>
-                  </span>
+<div class="col-md-9 col-md-pull-3">
+  <div class="projects">
+    <div id="comments">
+      <h2 class="title">
+        {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
+        <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
+          <strong>P {{ number_format(abs($total_owes), 2)  }}</strong>
+        </span>
+      </h2>
+      <div class="comments-inner">
+        <ul class="comment-list">
+          @foreach($friends as $friend)
+            <li class="comment">
+              <div class="comment-body">
+                <div class="comment-avatar image" style="background-image: url(images/avatar-150px.jpg);">
+                  <img alt="avatar" src="{{ asset('images') }}/{{ rand(1, 4)}}.jpg">
                 </div>
-            </div>
-        </div>
-    </div>
-
-    @foreach($friends as $friend)
-      <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-              <div class="panel panel-default">
-                  <div class="panel-heading"><a href="{{ $friend['path'] }}">{{ $friend['name'] }}</a></div>
-
-                  <div class="panel-body">
+                <div class="comment-context">
+                  <div class="comment-head">
+                    <h2 class="title"><a href="{{ $friend['path'] }}">{{ $friend['name'] }}</a></h2>
+                    <span class="comment-date">Joined {{ $friend['joined'] }}</span>
+                  </div>
+                  <div class="comment-content">
                     @if($friend['owes'] >= 0)
-                      Owes you
-                      <span style="color:green;">
-                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
-                      </span>
+                      <p>Owes you P {{ number_format(abs($friend['owes']), 2)  }}</p>
                     @else
-                      You owe
-                      <span style="color:#bf5329;">
-                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
-                      </span>
-                      <span style="float:right;">
-                        <button type="button" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="btn btn-primary btn-sm">Settle</button>
+                      <p>You owe P {{ number_format(abs($friend['owes']), 2)  }}</p>
+                    @endif
+                  </div>
+                  <div class="reply">
+                    @if($friend['owes'] >= 0)
+                      <span class="comment-reply"><a class="comment-reply-link" href="#">Notify</a></span>
+                    @else
+                      <span class="comment-reply">
+                        <a href="#" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="comment-reply-link">Settle</a>
                       </span>
                     @endif
                   </div>
+                </div>
               </div>
-          </div>
+            </li>
+          @endforeach
+        </ul>
       </div>
-    @endforeach
 
+    </div>
     <div class="modal fade" id="settleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -77,6 +92,7 @@
         </div>
       </div>
     </div>
+  </div>
 </div>
 @endsection
 

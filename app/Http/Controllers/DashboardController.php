@@ -51,6 +51,8 @@ class DashboardController extends Controller
 
               'path'            => "/friends/" . $friend->id,
 
+              'joined'          => $friend->created_at->diffForHumans(),
+
             ];
 
         });
