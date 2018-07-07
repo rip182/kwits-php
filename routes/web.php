@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', [
   'uses' => 'HomeController@index',
-  'middleware' => ['loggedIn', 'hasTravelGroup'],
+  'middleware' => ['loggedIn'],
 ])->name('home');
 Route::get('/dashboard', [
   'uses' => 'DashboardController@index',

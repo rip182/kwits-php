@@ -41,7 +41,7 @@
                   <tr>
                     <td class="name">Travel Buddies</td>
                     <td class="value">
-                      {{ rtrim($travel_buddies, ', ') }}
+                      {{ rtrim($names, ', ') }}
                     </td>
                   </tr>
                   <tr>
