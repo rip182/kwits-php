@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 use App\Travel;
 use App\Member;
@@ -22,7 +23,9 @@ class TravelsController extends Controller
 
         $travels = $this->request->get('travels');
 
-        $friend_requests = $user->getFriendRequests();
+        $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+          $user->getFriendRequests();
+        });
 
         return view('travels.index', compact('travels', 'friend_requests'));
     }
@@ -38,7 +41,9 @@ class TravelsController extends Controller
 
       $friends = $user->getFriends();
 
-      $friend_requests = $user->getFriendRequests();
+      $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+        $user->getFriendRequests();
+      });
 
       return view('travels.create', compact('friends', 'friend_requests'));
     }
@@ -95,33 +100,51 @@ class TravelsController extends Controller
 
       $travel = $this->request->get('travel');
 
-      $travel_buddies = $travel->user->name . ", ";
-
       $members = $this->request->get('members');
 
-      foreach($members as $member) {
+      $travel_buddies = Cache::remember('travel_buddies', 10, function() use ($members, $user){
+        $buddies = [];
 
-        $travel_buddies .= $member->user->name . ", ";
+        foreach($members as $member) {
+          if($member->user_id != $user->id) {
+            $buddies[] = [
+              'id' => $member->user_id,
+              'name' => $member->user->name
+            ];
+          }
+        }
 
+        return $buddies;
+      });
+
+      $names = "";
+      foreach($travel_buddies as $travel_buddy) {
+        $names .= $travel_buddy['name'] . ", ";
       }
 
-      $expense_ids       = $travel->expenses()->pluck('expenses.id')->toArray();
+      $expense_ids       = Cache::remember('travel_expense_ids', 10, function() use ($travel) {
+        return $travel->expenses()->pluck('expenses.id')->toArray();
+      });
 
-      $total_expenses    = $travel->expenses()->sum('amount');
+      $total_expenses    = Cache::remember('travel_expenses_sum_amount', 10, function() use($travel) {
+        return $travel->expenses()->sum('amount');
+      });
 
       $payments = Payment::whereIn('payable_id', $expense_ids)
-        ->latest()
-        ->with('payable')
-        ->where('payable_type', 'App\Expense')
-        ->orderBy('created_at', 'DESC')
-        ->get()
-        ->groupBy(function($payment){
-          return $payment->created_at->format("Y-m-d");
-        });
+          ->latest()
+          ->with('payable')
+          ->where('payable_type', 'App\Expense')
+          ->orderBy('created_at', 'DESC')
+          ->get()
+          ->groupBy(function($payment){
+            return $payment->created_at->format("Y-m-d");
+          });
 
-      $friend_requests = $user->getFriendRequests();
+      $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
+        $user->getFriendRequests();
+      });
 
-      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses', 'travel_buddies'));
+      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses', 'travel_buddies', 'names'));
     }
 
     /**

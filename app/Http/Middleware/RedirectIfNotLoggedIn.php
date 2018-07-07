@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 use App\User;
 
@@ -18,7 +19,9 @@ class RedirectIfNotLoggedIn
      */
     public function handle($request, Closure $next)
     {
-        $user = User::find(Auth::id());
+        $user = Cache::rememberForever('user', function() {
+          return User::find(Auth::id());
+        });
 
         if($user) {
 

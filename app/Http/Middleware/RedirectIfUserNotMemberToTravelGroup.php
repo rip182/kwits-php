@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+use Illuminate\Support\Facades\Cache;
+
 use App\Travel;
 
 class RedirectIfUserNotMemberToTravelGroup
@@ -18,13 +20,19 @@ class RedirectIfUserNotMemberToTravelGroup
     public function handle($request, Closure $next)
     {
         $user = $request->get('user');
-        $travel = Travel::find($request->id);
+
+        $travel = Cache::rememberForever('travel', function() use ($request) {
+          return Travel::find($request->id);
+        });
 
         if($travel) {
           $request->attributes->add(['travel' => $travel]);
 
-          $members = $travel->members;
-          $request->attributes->add(['members' => $travel->members()->where('user_id', '!=', $user->id)->get()]);
+          $members = Cache::remember('members', 10, function() use($travel) {
+            return $travel->members;
+          });
+
+          $request->attributes->add(['members' => $members]);
 
           foreach($members as $member) {
             if($member->user_id == $user->id)
