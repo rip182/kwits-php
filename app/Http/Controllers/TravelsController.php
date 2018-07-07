@@ -133,13 +133,9 @@ class TravelsController extends Controller
         $names .= $travel_buddy['name'] . ", ";
       }
 
-      $expense_ids       = Cache::remember('travel_expense_ids-'.$travel->id, 10, function() use ($travel) {
-        return $travel->expenses()->pluck('expenses.id')->toArray();
-      });
+      $expense_ids       =  $travel->expenses()->pluck('expenses.id')->toArray();
 
-      $total_expenses    = Cache::remember('travel_expenses_sum_amount-'.$travel->id, 10, function() use($travel) {
-        return $travel->expenses()->sum('amount');
-      });
+      $total_expenses    = $travel->expenses()->sum('amount');
 
       $payments = Payment::whereIn('payable_id', $expense_ids)
           ->latest()

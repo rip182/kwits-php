@@ -22,12 +22,13 @@
 <div class="col-md-9 col-md-pull-3">
   <div class="projects">
     <div id="comments">
-      <h2 class="title">
-        {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
-        <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
-          <strong>P {{ number_format(abs($total_owes), 2)  }}</strong>
-        </span>
-      </h2>
+      @if($total_owes == 0)
+        @include('dashboard.titles.settled')
+      @elseif($total_owes > 0)
+        @include('dashboard.titles.owed')
+      @else
+        @include('dashboard.titles.owe')
+      @endif
       <div class="comments-inner">
         <ul class="comment-list">
           @foreach($friends as $friend)
