@@ -21,14 +21,14 @@ class RedirectIfUserNotMemberToTravelGroup
     {
         $user = $request->get('user');
 
-        $travel = Cache::rememberForever('travel', function() use ($request) {
+        $travel = Cache::rememberForever('travel-'.$request->id, function() use ($request) {
           return Travel::find($request->id);
         });
 
         if($travel) {
           $request->attributes->add(['travel' => $travel]);
 
-          $members = Cache::remember('members', 10, function() use($travel) {
+          $members = Cache::remember('members-'.$travel->id, 10, function() use($travel) {
             return $travel->members;
           });
 

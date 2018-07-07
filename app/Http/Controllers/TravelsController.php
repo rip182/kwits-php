@@ -21,7 +21,18 @@ class TravelsController extends Controller
     {
         $user = $this->request->get('user');
 
-        $travels = $this->request->get('travels');
+        $travels = [];
+
+        foreach($this->request->get('travels') as $travel) {
+          $travels[] = [
+            'id'              => $travel->id,
+            'name'            => $travel->name,
+            'total_expenses'  => Cache::remember('travel_expenses_sum_amount-'.$travel->id, 10, function() use($travel) {
+              return $travel->expenses()->sum('amount');
+            }),
+            'created_at'      => $travel->created_at,
+          ];
+        }
 
         $friend_requests = Cache::remember('friend_requests', 10, function() use ($user) {
           $user->getFriendRequests();
@@ -102,7 +113,7 @@ class TravelsController extends Controller
 
       $members = $this->request->get('members');
 
-      $travel_buddies = Cache::remember('travel_buddies', 10, function() use ($members, $user){
+      $travel_buddies = Cache::remember('travel_buddies-'.$travel->id, 10, function() use ($members, $user){
         $buddies = [];
 
         foreach($members as $member) {
@@ -122,11 +133,11 @@ class TravelsController extends Controller
         $names .= $travel_buddy['name'] . ", ";
       }
 
-      $expense_ids       = Cache::remember('travel_expense_ids', 10, function() use ($travel) {
+      $expense_ids       = Cache::remember('travel_expense_ids-'.$travel->id, 10, function() use ($travel) {
         return $travel->expenses()->pluck('expenses.id')->toArray();
       });
 
-      $total_expenses    = Cache::remember('travel_expenses_sum_amount', 10, function() use($travel) {
+      $total_expenses    = Cache::remember('travel_expenses_sum_amount-'.$travel->id, 10, function() use($travel) {
         return $travel->expenses()->sum('amount');
       });
 
