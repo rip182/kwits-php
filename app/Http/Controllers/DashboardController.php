@@ -17,7 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::id());
+        $user = $this->request->get('user');
 
         $users  = $user->getFriends();
 
@@ -59,6 +59,6 @@ class DashboardController extends Controller
 
         $friend_requests = $user->getFriendRequests();
 
-        return view('dashboard', compact('friends', 'user', 'total_owes', 'friend_requests'));
+        return view('dashboard.index', compact('friends', 'user', 'total_owes', 'friend_requests'));
     }
 }
