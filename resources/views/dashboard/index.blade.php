@@ -11,6 +11,11 @@
   #comments {
     border-top: 0px !important;
   }
+
+  .comment-settled:first-child {
+    border-top: 1px solid #eeeeee;
+    margin-top: 25px;
+  }
 </style>
 @endsection
 @section('content')
@@ -26,10 +31,15 @@
       <div class="comments-inner">
         <ul class="comment-list">
           @foreach($friends as $friend)
+            @if($friend['owes'] != 0)
+              @include('dashboard.buddies.notsettled')
+            @endif
+          @endforeach
+        </ul>
+        <ul class="comment-list">
+          @foreach($friends as $friend)
             @if($friend['owes'] == 0)
               @include('dashboard.buddies.settled')
-            @else
-              @include('dashboard.buddies.notsettled')
             @endif
           @endforeach
         </ul>

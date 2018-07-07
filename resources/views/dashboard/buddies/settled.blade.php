@@ -1,4 +1,4 @@
-<li class="comment" style="border-top: 1px solid #eeeeee; margin-top: 25px;">
+<li class="comment-settled">
   <div class="comment-body">
     <div class="comment-avatar image" style="background-image: url({{ asset('images') }}/{{ rand(1, 4)}}.jpg);">
       <img alt="avatar" src="{{ asset('images') }}/{{ rand(1, 4)}}.jpg">
