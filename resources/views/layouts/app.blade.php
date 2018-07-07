@@ -153,8 +153,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/libs/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.justifiedGallery.min.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.magnific-popup.js') }}"></script>
 	  <script src="{{ asset('js/scripts.js') }}"></script>

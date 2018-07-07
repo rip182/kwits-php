@@ -26,35 +26,38 @@
       <div class="comments-inner">
         <ul class="comment-list">
           @foreach($friends as $friend)
-            <li class="comment">
-              <div class="comment-body">
-                <div class="comment-avatar image" style="background-image: url(images/avatar-150px.jpg);">
-                  <img alt="avatar" src="{{ asset('images') }}/{{ rand(1, 4)}}.jpg">
+            @if($friend['owes'] == 0)
+            @else
+              <li class="comment">
+                <div class="comment-body">
+                  <div class="comment-avatar image" style="background-image: url({{ asset('images') }}/{{ rand(1, 4)}}.jpg);">
+                    <img alt="avatar" src="{{ asset('images') }}/{{ rand(1, 4)}}.jpg">
+                  </div>
+                  <div class="comment-context">
+                    <div class="comment-head">
+                      <h2 class="title"><a href="{{ $friend['path'] }}">{{ $friend['name'] }}</a></h2>
+                      <span class="comment-date">Joined {{ $friend['joined'] }}</span>
+                    </div>
+                    <div class="comment-content">
+                      @if($friend['owes'] > 0)
+                        <p>Owes you P {{ number_format(abs($friend['owes']), 2)  }}</p>
+                      @else
+                        <p>You owe P {{ number_format(abs($friend['owes']), 2)  }}</p>
+                      @endif
+                    </div>
+                    <div class="reply">
+                      @if($friend['owes'] > 0)
+                        <span class="comment-reply"><a class="comment-reply-link" href="#">Notify</a></span>
+                      @else
+                        <span class="comment-reply">
+                          <a href="#" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="comment-reply-link">Settle</a>
+                        </span>
+                      @endif
+                    </div>
+                  </div>
                 </div>
-                <div class="comment-context">
-                  <div class="comment-head">
-                    <h2 class="title"><a href="{{ $friend['path'] }}">{{ $friend['name'] }}</a></h2>
-                    <span class="comment-date">Joined {{ $friend['joined'] }}</span>
-                  </div>
-                  <div class="comment-content">
-                    @if($friend['owes'] >= 0)
-                      <p>Owes you P {{ number_format(abs($friend['owes']), 2)  }}</p>
-                    @else
-                      <p>You owe P {{ number_format(abs($friend['owes']), 2)  }}</p>
-                    @endif
-                  </div>
-                  <div class="reply">
-                    @if($friend['owes'] >= 0)
-                      <span class="comment-reply"><a class="comment-reply-link" href="#">Notify</a></span>
-                    @else
-                      <span class="comment-reply">
-                        <a href="#" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="comment-reply-link">Settle</a>
-                      </span>
-                    @endif
-                  </div>
-                </div>
-              </div>
-            </li>
+              </li>
+            @endif
           @endforeach
         </ul>
       </div>
@@ -98,7 +101,8 @@
 
 @section('scripts')
 <script type="text/javascript">
-  $('#settleModal').on('show.bs.modal', function (event) {
+$(document).ready(function(){
+  $("#settleModal").on('shown.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var recipient = button.data('name') // Extract info from data-* attributes
     var user_id = button.data('id');
@@ -107,10 +111,12 @@
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
     var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
+    modal.find('.modal-title').text('You owe ' + recipient + " P" + amount);
     modal.find('.modal-body input#recipient-name').val(recipient)
     modal.find('.modal-body input#owe-amount').val(amount)
     modal.find('.modal-body input#user-id').val(user_id)
   })
+});
+
 </script>
 @endsection

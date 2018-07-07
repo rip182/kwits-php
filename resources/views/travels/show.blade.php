@@ -18,8 +18,6 @@
 
 @section('content')
   <div class="col-md-9 col-md-pull-3">
-    {{-- @include("travels.splits.options", ["members" => $members]) --}}
-
     <div class="projects">
       <div class="project" style="margin-left: 6px; width: 578px;">
         <div class="detail-content">
@@ -83,7 +81,7 @@
       </div>
     </div>
   </div>
-
+  
 @endsection
 
 @section('scripts')
