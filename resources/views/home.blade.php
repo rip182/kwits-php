@@ -3,7 +3,18 @@
 @section('content')
 <div class="col-md-9 col-md-pull-3">
   <div class="projects">
-    @foreach($feed as $item)
+    @foreach($feed as $key => $item)
+      @if($key == 3)
+        <div class="project-item">
+             <div style="margin-bottom:5px;">
+               <span><b>COINS.PH</b> Collect your 50 PHP! Digital wallet trusted by 2 million Filipinos</span>
+             </div>
+             <a href="https://coins.ph/m/join/8bbcfs">
+                <img src="{{ asset('images') }}/coins.png" alt="COINS.PH">
+             </a>
+             <div style="margin-top: 5px"><small>Coins.ph is the best way to send and receive money in the Philippines</small></div>
+        </div>
+      @else
       <div class="project-item">
 			     <div style="margin-bottom:5px;">
              <span style="margin-right: 3px;"><i class="fa fa-user"></i></span>
@@ -19,6 +30,7 @@
 					 </div>
            <div style="margin-top: 5px">{{ rand(2, 100)}} likes</div>
       </div>
+      @endif
     @endforeach
     <!-- Pagination -->
 		<div class="pagination-wrap">
