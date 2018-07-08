@@ -62,6 +62,10 @@ class User extends Authenticatable
       return $this->hasMany('App\Leech', 'user_id');
     }
 
+    public function wallets() {
+      return $this->hasMany('App\Wallet', 'user_id');
+    }
+
     public function payments() {
       return $this->hasMany('App\Payment', 'user_id');
     }

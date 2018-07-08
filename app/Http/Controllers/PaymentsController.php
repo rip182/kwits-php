@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Jobs\PayWithCoins;
+use App\Payment;
 use App\User;
 use App\Leech;
+use App\Transfer;
 
 class PaymentsController extends Controller
 {
@@ -38,6 +41,42 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::find(Auth::id());
+
+        if($request->has('coins') && $request->coins == 1) {
+
+          $this->validate($request, [
+            'amount'          => 'required',
+            'target_address'  => 'required',
+          ]);
+
+          $wallet = $user->wallets()->first();
+
+          if($wallet) {
+            $data = [
+              'account'         => $wallet->coins_id,
+              'target_address'  => $request->target_address,
+              'amount'          => $request->amount,
+              '_token'          => csrf_token(),
+            ];
+
+            $result = dispatch_now(new PayWithCoins($data, $user->access_token));
+            // var_dump($result['transfer']); die();
+            $response = [
+              'status' => $result['transfer']['status'],
+              'account' => $result['transfer']['account'],
+              'exchange' => $result['transfer']['exchange'],
+              'payment' => $result['transfer']['payment'],
+              'target_address' => $result['transfer']['target_address'],
+              'amount' => $result['transfer']['amount'],
+              'transfer_id' => $result['transfer']['id'],
+              'user_id' => $user->id,
+            ];
+
+            Transfer::create($response);
+          }
+        }
+
         Payment::create([
           'user_id'       => Auth::id(),
           'payable_id'    => $request->user_id,
@@ -45,7 +84,9 @@ class PaymentsController extends Controller
           'amount'        => $request->amount,
         ]);
 
-        return redirect()->back();
+        return redirect()
+          ->back()
+          ->with('flash', 'You have successfully paid P ' . $request->amount . " to " . $request->recipient_name);
     }
 
     /**
