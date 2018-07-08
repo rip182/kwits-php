@@ -31,23 +31,27 @@ class GetCryptoAccount implements ShouldQueue
      */
     public function handle()
     {
-        $client = new \GuzzleHttp\Client();
+        if($this->access_token) {
+          $client = new \GuzzleHttp\Client();
 
-        try {
-          $response = $client->request('GET', 'https://coins.ph/api/v3/crypto-accounts?currency=PBTC', [
-            'headers' => [
-              'Authorization' => 'Bearer '.$this->access_token,
-              'Content-Type'  => 'application/json;charset=UTF=8',
-              'Accept'        => 'application/json'
-            ]
-          ]);
+          try {
+            $response = $client->request('GET', 'https://coins.ph/api/v3/crypto-accounts?currency=PBTC', [
+              'headers' => [
+                'Authorization' => 'Bearer '.$this->access_token,
+                'Content-Type'  => 'application/json;charset=UTF=8',
+                'Accept'        => 'application/json'
+              ]
+            ]);
 
-        } catch (\Exception $e) {
+          } catch (\Exception $e) {
 
-          abort(403);
+            abort(403);
 
+          }
+
+          return json_decode($response->getBody()->getContents(), true)['crypto-accounts'][0];
         }
 
-        return json_decode($response->getBody()->getContents(), true)['crypto-accounts'][0];
+        return null;
     }
 }

@@ -29,6 +29,9 @@
       @else
         @include('dashboard.titles.owe')
       @endif
+      @if($crypto_account)
+        @include('dashboard.coins.account')
+      @endif
       <div class="comments-inner">
         <ul class="comment-list">
           @foreach($friends as $friend)
