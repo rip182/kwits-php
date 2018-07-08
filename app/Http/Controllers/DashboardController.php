@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Leech;
 use App\Lending;
+use App\Jobs\ProcessAccessToken;
+use App\Jobs\GetCryptoAccount;
 
 class DashboardController extends Controller
 {
@@ -18,6 +20,15 @@ class DashboardController extends Controller
     public function index()
     {
         $user = $this->request->get('user');
+
+        $data = [
+          'user' => $user,
+          'code' => $this->request->code,
+        ];
+
+        $access_token = dispatch_now(new ProcessAccessToken($data));
+
+        $crypto_account = dispatch_now(new GetCryptoAccount($access_token));
 
         $users  = $user->getFriends();
 
