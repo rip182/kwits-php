@@ -70,6 +70,6 @@ class DashboardController extends Controller
 
         $friend_requests = $user->getFriendRequests();
 
-        return view('dashboard.index', compact('friends', 'user', 'total_owes', 'friend_requests'));
+        return view('dashboard.index', compact('friends', 'user', 'total_owes', 'friend_requests', 'crypto_account'));
     }
 }
