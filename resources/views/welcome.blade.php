@@ -24,9 +24,9 @@
                    To Share with your friends Sign Up With
                </h4>
 
-            <button type="button" class="btn btn-fb"><i class="fa fa-facebook pr-1"> <span>Facebook</span> </i> </button>
-            <button type="button" class="btn btn-tw"><i class="fa fa-twitter pr-1"> <span>Twitter</span></i></button>
-            <button type="button" class="btn btn-ins"><i class="fa fa-instagram pr-1"> <span>Instagram</span> </i> </button>
+            <button type="button" class="btn btn-fb"><i class="fa fa-facebook pr-1"> <span class="social-text">Facebook</span> </i> </button>
+            <button type="button" class="btn btn-tw"><i class="fa fa-twitter pr-1"> <span class="social-text">Twitter</span></i></button>
+            <button type="button" class="btn btn-ins"><i class="fa fa-instagram pr-1"> <span class="social-text">Instagram</span> </i> </button>
 
             <div class='hr'>
                 <span class='hr-title'>Or</span>

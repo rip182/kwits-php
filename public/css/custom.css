@@ -105,6 +105,10 @@ div.hr {
 .socials a{
     display: inline-block;
 }
+button .social-text {
+    font-size: 14px;
+    font-family:Arial;
+}
 /*}*/
 /*body{*/
     /*background-color: #FAFAFA;*/
