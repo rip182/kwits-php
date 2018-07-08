@@ -1,0 +1,111 @@
+/*div{*/
+    /*border-style: solid;*/
+    /*color: red;*/
+/*}*/
+
+.landingpage-content{
+    padding-top: 30px;
+}
+.title{
+right:70%;
+border-color:blueviolet;
+
+}
+.header.affix.form-alignment{
+left: 60%;
+}
+.form-border{
+    border-style: solid;
+    border-radius: 30px;
+    border-color: silver;
+    border-width:thin;
+    padding:20px 20px 20px 20px;
+    width: 315px;
+    display: inline-block;
+    height: 100%;
+
+    /*margin: 2px;*/
+
+}
+form h2 {
+    color: #0b0b0b;
+    text-align: center;
+}
+.row.center-landing-image{
+    padding-top: 5px;
+    width: 600px;
+}
+.logo.logo-center{
+    text-align: left;
+}
+/*.row #landing-image {*/
+#nav {
+    background-color: #FAFAFA;
+    border-style: solid;
+    border-color: silver;
+    border-bottom-width: thin;
+    bottom: 30px;
+}
+div.hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+    text-align: center;
+    height: 0px;
+    line-height: 0px;
+}
+
+.hr-title {
+    background-color: white;
+    padding: 10px;
+    font-style: normal;
+    color: #DDDDDD;
+    font-weight: bold;
+}
+/* Style all font awesome icons */
+.form-alignment .fa {
+    padding: 8px;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+
+
+}
+
+/* Add a hover effect if you want */
+.form-alignment.fa:hover {
+    opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.form-alignment .btn .fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+/* Twitter */
+.form-alignment .btn .fa-twitter {
+    background: #00ACED;
+    color: white;
+}
+
+.form-alignment .btn .fa-instagram{
+    background: linear-gradient(45deg,#F9CD12,#EF0F29,#803DA7);
+    color: white;
+}
+
+.form-alignment .btn{
+    padding: 0px;
+}
+.socials a{
+    display: inline-block;
+}
+/*}*/
+/*body{*/
+    /*background-color: #FAFAFA;*/
+/*}*/

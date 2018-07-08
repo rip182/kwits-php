@@ -1,95 +1,67 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <title>Laravel</title>
+    @section('styles')
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    @endsection
 
-    <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-<body>
-    <div class="flex-center position-ref full-height">
-        @if (Route::has('login'))
-            <div class="top-right links">
-                @auth
-                    <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                        @endauth
-            </div>
-        @endif
-
-        <div class="content">
-            <div class="title m-b-md">
-                Laravel
-            </div>
-
-            <div class="links">
-                <a href="https://laravel.com/docs">Documentation</a>
-                <a href="https://laracasts.com">Laracasts</a>
-                <a href="https://laravel-news.com">News</a>
-                <a href="https://forge.laravel.com">Forge</a>
-                <a href="https://github.com/laravel/laravel">GitHub</a>
-            </div>
+    @section('content')
+    <div class="container-fluid landingpage-content">
+        <div class="title">
+            <p class="h4 text-left">In sollicitudin sollicitudin felis, sit amet lacinia sapien</p>
+        </div>
+        <div class="row center-landing-image">
+            <img id="landing-image" src="{{ asset('images/landingpage2.png') }}" alt="">
         </div>
     </div>
-</body>
-</html>
+    @endsection
+
+    @section('signup/login')
+    <div class="row form-alignment" >
+
+        <form action="#" class="fh5co-form animate-box form-border" data-animate-effect="fadeInRight" >
+            <h2>Kwits</h2>
+               <h4 class="text-center">
+                   To Share with your friends Sign Up With
+               </h4>
+
+            <button type="button" class="btn btn-fb"><i class="fa fa-facebook pr-1"> <span>Facebook</span> </i> </button>
+            <button type="button" class="btn btn-tw"><i class="fa fa-twitter pr-1"> <span>Twitter</span></i></button>
+            <button type="button" class="btn btn-ins"><i class="fa fa-instagram pr-1"> <span>Instagram</span> </i> </button>
+
+            <div class='hr'>
+                <span class='hr-title'>Or</span>
+            </div>
+
+            <div class="form-group"></div>
+            {{--<div class="form-group">--}}
+                {{--<div class="alert alert-success" role="alert">Your info has been saved.</div>--}}
+            {{--</div>--}}
+            <div class="form-group">
+                <label for="name" class="sr-only">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="re-password" class="sr-only">Re-type Password</label>
+                <input type="password" class="form-control" id="re-password" placeholder="Re-type Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="remember"><input type="checkbox" id="remember"> Remember Me</label>
+            </div>
+            <div class="form-group">
+                <p>Already registered? <a href="index3.html">Sign In</a></p>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Sign Up" class="btn btn-primary btn-block"> Sign up</button>
+            </div>
+        </form>
+
+    </div>
+    @endsection

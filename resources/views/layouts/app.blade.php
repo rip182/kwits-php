@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/justifiedGallery.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/magnific-popup.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     @yield('styles')
     <style media="screen">
       [v-cloak] { display: none; }
@@ -40,7 +41,6 @@
 
         <!-- Mobile Menu -->
     		<div class="mobile">
-    			<div class="container">
     				<!-- Mobile -->
     				<div class="menu-mobile">
     					<span class="item item-1"></span>
@@ -61,19 +61,26 @@
 
         <div class="container">
           <div class="row">
+
             <div class="col-md-3 col-md-push-9">
-    					<div class="header affix">
+    					<div class="header affix form-alignment">
     						<div class="table">
     							<div class="table-cell">
+                                    @if(Auth::check())
     								<!-- Logo -->
-    								<div class="logo">
-    									<a href="index-2.html">Kwits</a>
-    								</div>
-    								<!-- End Logo -->
 
+                                        <div class="logo">
+                                            <a href="">Kwits</a>
+                                        </div>
+                                    @else
+
+
+                                    @endif
+							@if(Auth::check())
+								{
     								<!-- Navigation -->
     								<div class="main-menu">
-    									<nav>
+    									<nav class="navbar">
     										<ul class="menu-list">
     											<li class="{{ Request::is('home') ? 'active' : '' }} menu-item-has-children">
     												<a href="/home">Home</a>
@@ -84,53 +91,61 @@
     											<li class="{{ Request::is('travels') ? 'active' : '' }}">
     												<a href="/travels">Travels</a>
     											</li>
-                          <li>
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();">
-                               Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                          </li>
+												  <li>
+													<a href="{{ route('logout') }}"
+													   onclick="event.preventDefault();
+													   document.getElementById('logout-form').submit();">
+													   Logout
+													</a>
+													<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+														{{ csrf_field() }}
+													</form>
+												  </li>
     										</ul>
     									</nav>
     								</div>
-    								<!-- End Navigation -->
 
+    								<!-- End Navigation -->
+								}
+								@endif
+
+									@yield('signup/login')
     								<!-- Socials -->
-    								<div class="socials">
-    									<a href="#" title="Behance">
-    										<i class="fa fa-behance"></i>
-    									</a>
-    									<a href="#" title="Dribbble">
-    										<i class="fa fa-dribbble"></i>
-    									</a>
-    									<a href="#" title="Facebook">
-    										<i class="fa fa-facebook"></i>
-    									</a>
-    									<a href="#" title="Google Plus">
-    										<i class="fa fa-google-plus"></i>
-    									</a>
-    									<a href="#" title="Instagram">
-    										<i class="fa fa-instagram"></i>
-    									</a>
-    									<a href="#" title="Search this site">
-    										<i class="fa fa-plus"></i>
-    									</a>
-    								</div>
-                    @if(isset($members))
-                    <div class="box-search">
-                      <div class="table">
-                        <div class="table-cell">
-                          <div class="container">
-                            @include("travels.splits.options", ["members" => $members])
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    @endif
+										<div class="row">
+											<div class="socials">
+												<a href="#" title="Behance">
+													<i class="fa fa-behance"></i>
+												</a>
+												<a href="#" title="Dribbble">
+													<i class="fa fa-dribbble"></i>
+												</a>
+												<a href="#" title="Facebook">
+													<i class="fa fa-facebook"></i>
+												</a>
+												<a href="#" title="Google Plus">
+													<i class="fa fa-google-plus"></i>
+												</a>
+												<a href="#" title="Instagram">
+													<i class="fa fa-instagram"></i>
+												</a>
+												<a href="#" title="Search this site">
+													<i class="fa fa-plus"></i>
+												</a>
+											</div>
+										</div>
+
+
+									@if(isset($members))
+									<div class="box-search">
+									  <div class="table">
+										<div class="table-cell">
+										  <div class="container">
+											@include("travels.splits.options", ["members" => $members])
+										  </div>
+										</div>
+									  </div>
+									</div>
+									@endif
     								<!-- End Socials -->
 
     								<div class="copyright">
@@ -150,7 +165,7 @@
 
 
         <flash message="{!! session('flash') !!}"></flash>
-    </div>
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -159,5 +174,6 @@
 	  <script src="{{ asset('js/libs/jquery.magnific-popup.js') }}"></script>
 	  <script src="{{ asset('js/scripts.js') }}"></script>
     @yield('scripts')
+
 </body>
 </html>
