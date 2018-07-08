@@ -48,6 +48,6 @@ class HomeController extends Controller
           $user->getFriendRequests();
         });
 
-        return view('home', compact('feed', 'user', 'friend_requests'));
+        return view('home.index', compact('feed', 'user', 'friend_requests'));
     }
 }
