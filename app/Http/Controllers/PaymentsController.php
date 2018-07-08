@@ -61,7 +61,7 @@ class PaymentsController extends Controller
             ];
 
             $result = dispatch_now(new PayWithCoins($data, $user->access_token));
-            // var_dump($result['transfer']); die();
+
             $response = [
               'status' => $result['transfer']['status'],
               'account' => $result['transfer']['account'],
@@ -86,7 +86,7 @@ class PaymentsController extends Controller
 
         return redirect()
           ->back()
-          ->with('flash', 'You have successfully paid P ' . $request->amount . " to " . $request->recipient_name);
+          ->with('flash', 'You have successfully paid P ' . $request->amount . ' to ' . $request->recipient_name);
     }
 
     /**

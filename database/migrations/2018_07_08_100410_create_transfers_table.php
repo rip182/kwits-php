@@ -23,7 +23,7 @@ class CreateTransfersTable extends Migration
             $table->string('exchange', 100)->nullable();
             $table->string('payment', 100);
             $table->string('target_address', 100);
-            $table->decimal('amount', 12, 10);
+            $table->string('amount', 100);
             $table->timestamps();
         });
     }
