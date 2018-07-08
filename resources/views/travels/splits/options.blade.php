@@ -8,15 +8,15 @@
       <input class="members" v-model="name" name="name" type="text" placeholder="e.g. Dinner, Bus Fare, etc.">
       <div v-show="split == 'equal'">
         <select data-style="members" id="members" name="user_id[]" class="form-control selectpicker" data-actionsBox="true" multiple data-selected-text-format="count > 3">
-          @foreach($members as $member)
-            <option value="{{ $member->user_id }}">{{ $member->user->name }}</option>
+          @foreach($travel_buddies as $member)
+            <option value="{{ $member['id'] }}">{{ $member['name'] }}</option>
           @endforeach
         </select>
       </div>
       <div v-if="split == 'unequal'" style="margin-top: 10px;">
-        @foreach($members as $member)
-            <label for="" class="">{{ $member->user->name }}</label>
-            <input name="user_id[{{$member->user_id}}]" v-on:input="setLimit" v-model="member.partial[{{$member->user_id}}]" type="number" class="" placeholder="0.00" value="0.00">
+        @foreach($travel_buddies as $member)
+            <label for="" class="">{{ $member['name'] }}</label>
+            <input name="user_id[{{$member['id']}}]" v-on:input="setLimit" v-model="member.partial[{{$member['id']}}]" type="number" class="" placeholder="0.00" value="0.00">
         @endforeach
       </div>
       <p>&nbsp;</p>

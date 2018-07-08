@@ -24,6 +24,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
     @yield('styles')
     <style media="screen">
+      a.bitcoin {
+        color: #000000 !important;
+      }
       [v-cloak] { display: none; }
     </style>
 </head>
@@ -116,6 +119,13 @@
     									<a href="#" title="Instagram">
     										<i class="fa fa-instagram"></i>
     									</a>
+                      @if(! auth()->guest() && Request::is('dashboard'))
+                        @if( ! $user->access_token)
+                          <a class="bitcoin" href="{{ config('coins.auth') }}" title="Bitcoin">
+                            <i class="fa fa-bitcoin"></i>
+                          </a>
+                        @endif
+                      @endif
     									<a href="#" title="Search this site">
     										<i class="fa fa-plus"></i>
     									</a>
@@ -153,8 +163,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/libs/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.justifiedGallery.min.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.magnific-popup.js') }}"></script>
 	  <script src="{{ asset('js/scripts.js') }}"></script>

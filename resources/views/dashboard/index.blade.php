@@ -1,50 +1,55 @@
 @extends('layouts.app')
+@section('styles')
+<style media="screen">
+  .panel-default>.panel-heading {
+    background-color: transparent !important;
+  }
+  .panel-default {
+    border-color: transparent !important;
+  }
 
+  #comments {
+    border-top: 0px !important;
+  }
+
+  .comment-settled:first-child {
+    border-top: 1px solid #eeeeee;
+    margin-top: 25px;
+  }
+</style>
+@endsection
 @section('content')
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                  <span>
-                    {{ ($total_owes >= 0) ? "You are owed: " : "You owe: " }}
-                    <span style="color: {{ ($total_owes >= 0 ? "green;" : "#bf5329;") }}">
-                      <strong>Php {{ number_format(abs($total_owes), 2)  }}</strong>
-                    </span>
-                  </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @foreach($friends as $friend)
-      <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-              <div class="panel panel-default">
-                  <div class="panel-heading"><a href="{{ $friend['path'] }}">{{ $friend['name'] }}</a></div>
-
-                  <div class="panel-body">
-                    @if($friend['owes'] >= 0)
-                      Owes you
-                      <span style="color:green;">
-                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
-                      </span>
-                    @else
-                      You owe
-                      <span style="color:#bf5329;">
-                        <strong>Php {{ number_format(abs($friend['owes']), 2)  }}</strong>
-                      </span>
-                      <span style="float:right;">
-                        <button type="button" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="btn btn-primary btn-sm">Settle</button>
-                      </span>
-                    @endif
-                  </div>
-              </div>
-          </div>
+<div class="col-md-9 col-md-pull-3">
+  <div class="projects">
+    <div id="comments">
+      @if($total_owes == 0)
+        @include('dashboard.titles.settled')
+      @elseif($total_owes > 0)
+        @include('dashboard.titles.owed')
+      @else
+        @include('dashboard.titles.owe')
+      @endif
+      @if($crypto_account)
+        @include('dashboard.coins.account')
+      @endif
+      <div class="comments-inner">
+        <ul class="comment-list">
+          @foreach($friends as $friend)
+            @if($friend['owes'] != 0)
+              @include('dashboard.buddies.notsettled')
+            @endif
+          @endforeach
+        </ul>
+        <ul class="comment-list">
+          @foreach($friends as $friend)
+            @if($friend['owes'] == 0)
+              @include('dashboard.buddies.settled')
+            @endif
+          @endforeach
+        </ul>
       </div>
-    @endforeach
 
+    </div>
     <div class="modal fade" id="settleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -77,12 +82,14 @@
         </div>
       </div>
     </div>
+  </div>
 </div>
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
-  $('#settleModal').on('show.bs.modal', function (event) {
+$(document).ready(function(){
+  $("#settleModal").on('shown.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var recipient = button.data('name') // Extract info from data-* attributes
     var user_id = button.data('id');
@@ -91,10 +98,12 @@
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
     var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
+    modal.find('.modal-title').text('You owe ' + recipient + " P" + amount);
     modal.find('.modal-body input#recipient-name').val(recipient)
     modal.find('.modal-body input#owe-amount').val(amount)
     modal.find('.modal-body input#user-id').val(user_id)
   })
+});
+
 </script>
 @endsection
