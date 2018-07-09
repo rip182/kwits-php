@@ -38,7 +38,7 @@ class TravelsController extends Controller
           $user->getFriendRequests();
         });
 
-        return view('travels.index', compact('travels', 'friend_requests'));
+        return view('travels.index', compact('user', 'travels', 'friend_requests'));
     }
 
     /**
@@ -151,7 +151,7 @@ class TravelsController extends Controller
         $user->getFriendRequests();
       });
 
-      return view('travels.show', compact('travel', 'friend_requests', 'members', 'payments', 'total_expenses', 'travel_buddies', 'names'));
+      return view('travels.show', compact('user', 'travel', 'friend_requests', 'members', 'payments', 'total_expenses', 'travel_buddies', 'names'));
     }
 
     /**
