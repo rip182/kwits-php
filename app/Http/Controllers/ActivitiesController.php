@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Activity;
 
 class ActivitiesController extends Controller
 {
@@ -13,10 +14,18 @@ class ActivitiesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+     public function index()
+     {
+       $user = auth()->user();
+       $friends = $user->getFriends();
+
+       return view('activities.index', [
+         'user' => $user,
+         'activities' => Activity::feed($user),
+         'friend_requests' => $user->getFriendRequests(),
+         'friends'       => $friends,
+       ]);
+     }
 
     /**
      * Show the form for creating a new resource.

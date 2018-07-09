@@ -44,9 +44,7 @@ class GetCryptoAccount implements ShouldQueue
             ]);
 
           } catch (\Exception $e) {
-
-            abort(403);
-
+            return $e->getCode();
           }
 
           return json_decode($response->getBody()->getContents(), true)['crypto-accounts'][0];

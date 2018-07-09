@@ -63,10 +63,19 @@
             <div class="modal-body">
 
                 {{ csrf_field() }}
+
                 <div class="form-group">
                   <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <input type="text" class="form-control" id="recipient-name" name="recipient_name">
                   <input type="hidden" name="user_id" id="user-id" value="">
+                </div>
+                <div class="form-group wallet hide">
+                  <label for="target-address" class="col-form-label">PHP Target Address:</label>
+                  <input type="text" class="form-control" id="target-address" name="target_address">
+                </div>
+                <div class="form-group verification-code hide">
+                  <label for="verification-code" class="col-form-label">Verification Code:</label>
+                  <input type="text" class="form-control" id="verification-code" name="verification_code" placeholder="For enabled two factor authentication account.">
                 </div>
                 <div class="form-group">
                   <label for="message-text" class="col-form-label">Amount:</label>
@@ -77,6 +86,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Pay</button>
+              <button type="submit" class="btn btn-success" name="coins" value="1">Pay with Coins</button>
             </div>
           </form>
         </div>
@@ -94,6 +104,12 @@ $(document).ready(function(){
     var recipient = button.data('name') // Extract info from data-* attributes
     var user_id = button.data('id');
     var amount = button.data('amount').toString().split(",").join("")
+    var has_wallet = button.data('wallet');
+
+    if(has_wallet === 1) {
+      $(".wallet").removeClass('hide');
+      $(".verification-code").removeClass('hide');
+    }
 
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.

@@ -87,16 +87,30 @@
     											<li class="{{ Request::is('travels') ? 'active' : '' }}">
     												<a href="/travels">Travels</a>
     											</li>
-                          <li>
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();">
-                               Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                          </li>
+                          @if(! auth()->guest() )
+                            <li>
+                              <a href="#">{{ $user->name }}</a>
+                              <ul class="sub-menu">
+      													<li>
+      														<a href="#">Your profile</a>
+      													</li>
+                                <li>
+                                  <a href="/activities">Your activities</a>
+                                </li>
+      													<li>
+                                  <a href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                                     Sign out
+                                  </a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                      {{ csrf_field() }}
+                                  </form>
+      													</li>
+      												</ul>
+
+                            </li>
+                          @endif
     										</ul>
     									</nav>
     								</div>

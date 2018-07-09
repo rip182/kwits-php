@@ -25,7 +25,9 @@ Route::get('/dashboard', [
   'uses' => 'DashboardController@index',
   'middleware' => ['loggedIn', 'hasTravelGroup'],
 ])->name('dashboard');
-Route::get('/profile', 'ProfileController@myProfile');
+// Route::get('/profile', 'ProfileController@myProfile');
+
+Route::get('/activities', 'ActivitiesController@index');
 Route::get('/friends/{friend}/activities', 'ActivitiesController@show');
 Route::get('/friend-requests', 'FriendsController@friendRequests');
 Route::post('/friend-requests', 'FriendsController@acceptFriendship');

@@ -20,7 +20,7 @@
           <span class="comment-reply"><a class="comment-reply-link" href="#">Notify</a></span>
         @else
           <span class="comment-reply">
-            <a href="#" data-toggle="modal" data-target="#settleModal" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="comment-reply-link">Settle</a>
+            <a href="#" data-toggle="modal" data-target="#settleModal" data-wallet="{{ $friend['has_wallet'] }}" data-id="{{ $friend['id'] }}" data-name="{{ $friend['name'] }}" data-amount="{{ number_format(abs($friend['owes']), 2) }}" class="comment-reply-link">Settle</a>
           </span>
         @endif
       </div>

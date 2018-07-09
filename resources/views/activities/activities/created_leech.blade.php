@@ -1,4 +1,3 @@
-<h5 style="float:left;">Leeched</h5>
 <div style="clear:both;"></div>
   <h5>
     <small class="text-muted">You leeched

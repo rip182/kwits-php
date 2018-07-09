@@ -2,40 +2,40 @@
 
 @section('styles')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <style media="screen">
+    .panel-default {
+      border: 0px;
+    }
+  </style>
 @endsection
 
 @section('content')
-<div class="container">
-  <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-          <div class="panel panel-default">
-              <div class="panel-heading">My Profile</div>
-          </div>
-      </div>
-  </div>
+<div class="col-md-9 col-md-pull-3">
+  <div class="projects">
   @forelse($activities as $date => $activity)
     @include('profiles.activity')
   @empty
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+
             <div class="panel panel-default">
                 <div class="panel-body">
                       <p>No activity yet.</p>
                 </div>
             </div>
-        </div>
+
     </div>
   @endforelse
   {{-- Include below modals in partials above --}}
   {{-- @include("profiles.modals.delete_expense")
   @include("profiles.modals.delete_payment") --}}
+  </div>
 </div>
 @endsection
 
 @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
-    $('#deleteExpenseModal').on('show.bs.modal', function (event) {
+    $('#deleteExpenseModal').on('shown.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var expense_name = button.data('expense-name') // Extract info from data-* attributes
       var expense_id = button.data('expense-id');
