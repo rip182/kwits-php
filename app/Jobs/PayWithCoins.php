@@ -48,10 +48,15 @@ class PayWithCoins implements ShouldQueue
 
       } catch (\Exception $e) {
 
-        return $e->getCode();
-        var_dump($e); die();
+        return [
+          'status' => false,
+          'errors' => json_decode($e->getResponse()->getBody()->getContents(), true)['errors'],
+        ];
       }
 
-      return json_decode($response->getBody()->getContents(), true);
+      return [
+        'status'  => true,
+        'message' => json_decode($response->getBody()->getContents(), true),
+      ];
     }
 }

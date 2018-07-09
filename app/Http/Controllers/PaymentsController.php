@@ -54,22 +54,36 @@ class PaymentsController extends Controller
 
           if($wallet) {
             $data = [
-              'account'         => $wallet->coins_id,
-              'target_address'  => $request->target_address,
-              'amount'          => $request->amount,
-              '_token'          => csrf_token(),
+              'account'             => $wallet->coins_id,
+              'target_address'      => $request->target_address,
+              'amount'              => $request->amount,
+              'verification_code'   => $request->verification_code,
+              '_token'              => csrf_token(),
             ];
 
             $result = dispatch_now(new PayWithCoins($data, $user->access_token));
 
+            if($result['status'] == false) {
+              $errors = "";
+              foreach($result['errors'] as $error) {
+                foreach($error as $key => $message) {
+                  $errors .= ($key + 1) . ". " . $message;
+                }
+              }
+
+              return redirect()
+                ->back()
+                ->with('flash', $errors);
+            }
+
             $response = [
-              'status' => $result['transfer']['status'],
-              'account' => $result['transfer']['account'],
-              'exchange' => $result['transfer']['exchange'],
-              'payment' => $result['transfer']['payment'],
-              'target_address' => $result['transfer']['target_address'],
-              'amount' => $result['transfer']['amount'],
-              'transfer_id' => $result['transfer']['id'],
+              'status' => $result['message']['transfer']['status'],
+              'account' => $result['message']['transfer']['account'],
+              'exchange' => $result['message']['transfer']['exchange'],
+              'payment' => $result['message']['transfer']['payment'],
+              'target_address' => $result['message']['transfer']['target_address'],
+              'amount' => $result['message']['transfer']['amount'],
+              'transfer_id' => $result['message']['transfer']['id'],
               'user_id' => $user->id,
             ];
 

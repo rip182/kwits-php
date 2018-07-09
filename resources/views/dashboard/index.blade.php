@@ -73,6 +73,10 @@
                   <label for="target-address" class="col-form-label">PHP Target Address:</label>
                   <input type="text" class="form-control" id="target-address" name="target_address">
                 </div>
+                <div class="form-group verification-code hide">
+                  <label for="verification-code" class="col-form-label">Verification Code:</label>
+                  <input type="text" class="form-control" id="verification-code" name="verification_code" placeholder="For enabled two factor authentication account.">
+                </div>
                 <div class="form-group">
                   <label for="message-text" class="col-form-label">Amount:</label>
                   <input type="number" class="form-control" id="owe-amount" name="amount" value="" step=".01">
@@ -104,6 +108,7 @@ $(document).ready(function(){
 
     if(has_wallet === 1) {
       $(".wallet").removeClass('hide');
+      $(".verification-code").removeClass('hide');
     }
 
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
