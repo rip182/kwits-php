@@ -35,7 +35,7 @@
 @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
-    $('#deleteExpenseModal').on('show.bs.modal', function (event) {
+    $('#deleteExpenseModal').on('shown.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var expense_name = button.data('expense-name') // Extract info from data-* attributes
       var expense_id = button.data('expense-id');

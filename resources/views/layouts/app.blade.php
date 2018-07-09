@@ -25,6 +25,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     @yield('styles')
     <style media="screen">
+      a.bitcoin {
+        color: #000000 !important;
+      }
       [v-cloak] { display: none; }
     </style>
 </head>
@@ -91,16 +94,27 @@
     											<li class="{{ Request::is('travels') ? 'active' : '' }}">
     												<a href="/travels">Travels</a>
     											</li>
-												  <li>
-													<a href="{{ route('logout') }}"
-													   onclick="event.preventDefault();
-													   document.getElementById('logout-form').submit();">
-													   Logout
-													</a>
-													<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-														{{ csrf_field() }}
-													</form>
-												  </li>
+                          @if(! auth()->guest() )
+                            <li>
+                              <a href="#">{{ $user->name }}</a>
+                              <ul class="sub-menu">
+      													<li>
+      														<a href="#">Your profile</a>
+      													</li>
+      													<li>
+                                  <a href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                                     Sign out
+                                  </a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                      {{ csrf_field() }}
+                                  </form>
+      													</li>
+      												</ul>
+
+                            </li>
+                          @endif
     										</ul>
     									</nav>
     								</div>
@@ -111,41 +125,45 @@
 
 									@yield('signup/login')
     								<!-- Socials -->
-										<div class="row">
-											<div class="socials">
-												<a href="#" title="Behance">
-													<i class="fa fa-behance"></i>
-												</a>
-												<a href="#" title="Dribbble">
-													<i class="fa fa-dribbble"></i>
-												</a>
-												<a href="#" title="Facebook">
-													<i class="fa fa-facebook"></i>
-												</a>
-												<a href="#" title="Google Plus">
-													<i class="fa fa-google-plus"></i>
-												</a>
-												<a href="#" title="Instagram">
-													<i class="fa fa-instagram"></i>
-												</a>
-												<a href="#" title="Search this site">
-													<i class="fa fa-plus"></i>
-												</a>
-											</div>
-										</div>
+    								<div class="socials">
+    									<a href="#" title="Behance">
+    										<i class="fa fa-behance"></i>
+    									</a>
+    									<a href="#" title="Dribbble">
+    										<i class="fa fa-dribbble"></i>
+    									</a>
+    									<a href="#" title="Facebook">
+    										<i class="fa fa-facebook"></i>
+    									</a>
+    									<a href="#" title="Google Plus">
+    										<i class="fa fa-google-plus"></i>
+    									</a>
+    									<a href="#" title="Instagram">
+    										<i class="fa fa-instagram"></i>
+    									</a>
+                      @if(! auth()->guest() && Request::is('dashboard'))
+                        @if( ! $user->access_token)
+                          <a class="bitcoin" href="{{ config('coins.auth') }}" title="Bitcoin">
+                            <i class="fa fa-bitcoin"></i>
+                          </a>
+                        @endif
+                      @endif
+    									<a href="#" title="Search this site">
+    										<i class="fa fa-plus"></i>
+    									</a>
+    								</div>
+                    @if(isset($members))
+                    <div class="box-search">
+                      <div class="table">
+                        <div class="table-cell">
+                          <div class="container">
+                            @include("travels.splits.options", ["members" => $members])
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
 
-
-									@if(isset($members))
-									<div class="box-search">
-									  <div class="table">
-										<div class="table-cell">
-										  <div class="container">
-											@include("travels.splits.options", ["members" => $members])
-										  </div>
-										</div>
-									  </div>
-									</div>
-									@endif
     								<!-- End Socials -->
 
     								<div class="copyright">
@@ -168,8 +186,8 @@
 
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/libs/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.justifiedGallery.min.js') }}"></script>
 	  <script src="{{ asset('js/libs/jquery.magnific-popup.js') }}"></script>
 	  <script src="{{ asset('js/scripts.js') }}"></script>

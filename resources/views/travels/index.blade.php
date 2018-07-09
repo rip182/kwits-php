@@ -1,59 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    @foreach($travels as $travel)
-      <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-              <div class="panel panel-default">
-                  <div class="panel-heading"><a href="/travels/{{ $travel->id }}">{{ $travel->name }}</a></div>
-
-                  <div class="panel-body">
-                    @if(1 >= 0)
-                      <small>Published</small>
-                      <span style="color:green;">
-                        <strong><small> {{ $travel->created_at->diffForHumans() }}</small></strong>
-                      </span>
-                    @endif
-                  </div>
-              </div>
+  <div class="col-md-9 col-md-pull-3">
+    <div class="projects">
+      @foreach($travels as $travel)
+        <article class="post">
+          <div class="post-media">
+            <a href="/travels/{{ $travel['id'] }}">
+              <img src="{{ asset('images') }}/projects/{{ rand(1, 21)}}.jpg" alt="Post">
+            </a>
           </div>
-      </div>
-    @endforeach
+          <div class="post-content">
+            <h2 class="title">
+              <a href="/travels/{{ $travel['id'] }}">{{ $travel['name'] }}</a>
+            </h2>
 
-    <div class="modal fade" id="settleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <!-- Post Details -->
+            <div class="post-details">
+              <a href="#" class="post-date">{{ date("M d, Y", strtotime($travel['created_at'])) }}</a>
+              <a href="#" class="post-views">P {{ number_format(abs($travel['total_expenses']), 2)  }}</a>
+              <a href="#" class="post-comments">03 Comments</a>
+            </div>
+            <!-- End Post Details -->
+
+            <!-- The Content -->
+            <div class="the-excerpt">
+              <p>Morbi leo enim, laoreet eget urna id, ullamcorper condimentum urna. Curabitur accumsan sem et nisi ultricies porttitor. Aliquam sed nunc elit. Nunc faucibus interdum mauris at mattis. Phasellus congue volutpat porttitor.
+                Vivamus fringilla iaculis ex, et condimentum magna pharetra id. Aliquam erat volutpat. Nam odio velit, egestas vel leo tempus, luctus dapibus mauris.
+              </p>
+            </div>
+            <!-- End The Content -->
           </div>
-          <form method="POST" action="/payments">
-            <div class="modal-body">
-
-                {{ csrf_field() }}
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
-                  <input type="hidden" name="user_id" id="user-id" value="">
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Amount:</label>
-                  <input type="number" class="form-control" id="owe-amount" name="amount" value="" step=".01">
-                </div>
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Pay</button>
-            </div>
-          </form>
-        </div>
-      </div>
+        </article>
+      @endforeach
     </div>
-</div>
+  </div>
 @endsection
 
 @section('scripts')

@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'access_token',
     ];
 
     /**
@@ -60,6 +60,10 @@ class User extends Authenticatable
 
     public function leeches() {
       return $this->hasMany('App\Leech', 'user_id');
+    }
+
+    public function wallets() {
+      return $this->hasMany('App\Wallet', 'user_id');
     }
 
     public function payments() {

@@ -18,8 +18,6 @@
 
 @section('content')
   <div class="col-md-9 col-md-pull-3">
-    {{-- @include("travels.splits.options", ["members" => $members]) --}}
-
     <div class="projects">
       <div class="project" style="margin-left: 6px; width: 578px;">
         <div class="detail-content">
@@ -41,7 +39,7 @@
                   <tr>
                     <td class="name">Travel Buddies</td>
                     <td class="value">
-                      {{ rtrim($travel_buddies, ', ') }}
+                      {{ rtrim($names, ', ') }}
                     </td>
                   </tr>
                   <tr>
