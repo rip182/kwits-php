@@ -2,33 +2,33 @@
 
 @section('styles')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <style media="screen">
+    .panel-default {
+      border: 0px;
+    }
+  </style>
 @endsection
 
 @section('content')
-<div class="container">
-  <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-          <div class="panel panel-default">
-              <div class="panel-heading">My Profile</div>
-          </div>
-      </div>
-  </div>
+<div class="col-md-9 col-md-pull-3">
+  <div class="projects">
   @forelse($activities as $date => $activity)
     @include('profiles.activity')
   @empty
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+
             <div class="panel panel-default">
                 <div class="panel-body">
                       <p>No activity yet.</p>
                 </div>
             </div>
-        </div>
+
     </div>
   @endforelse
   {{-- Include below modals in partials above --}}
   {{-- @include("profiles.modals.delete_expense")
   @include("profiles.modals.delete_payment") --}}
+  </div>
 </div>
 @endsection
 

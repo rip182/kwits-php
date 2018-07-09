@@ -1,7 +1,6 @@
 <expense inline-template :attributes="{{ $activity }}" :expense="{{ $activity->subject }}" v-cloak>
   <div class="expense">
-    <h5 style="float:left;">Seeded</h5>
-    <div class="dropdown" style="float:right;">
+    <div class="dropdown col-md-1 col-md-push-11" style="padding-right: 0px; text-align:right;">
       <i id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
       <ul class="dropdown-menu" aria-labelledby="dLabel">
           <li>
@@ -13,9 +12,9 @@
       </ul>
     </div>
     <div style="clear:both;"></div>
-    <h5>
+    <h6>
       <small class="text-muted">
-        You seeded for
+        You paid for
         <input type="text" v-if="editing" v-model="expense.name">
         <strong v-else v-text="expense.name">{{ $activity->subject->name }}</strong> expenses
       </small>
@@ -30,7 +29,7 @@
           {{ number_format($activity->subject->amount, 2) }}
         </span>
       </span>
-    </h5>
+    </h6>
     @include("profiles.modals.delete_expense")
   </div>
 </expense>

@@ -1,7 +1,6 @@
 <lend inline-template :attributes="{{ $activity }}" :friends="{{ $friends }}" :recipient="{{ $activity->subject->recipient }}" v-cloak>
   <div class="lend">
-    <h5 style="float:left;">Lent</h5>
-    <div class="dropdown" style="float:right;">
+    <div class="dropdown col-md-1 col-md-push-10">
       <i type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon-ellipsis-horizontal"></i>
       <ul class="dropdown-menu" aria-labelledby="dLabel">
           <li>
