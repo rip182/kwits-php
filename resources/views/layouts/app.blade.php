@@ -94,6 +94,9 @@
       													<li>
       														<a href="#">Your profile</a>
       													</li>
+                                <li>
+                                  <a href="/activities">Your activities</a>
+                                </li>
       													<li>
                                   <a href="{{ route('logout') }}"
                                      onclick="event.preventDefault();
